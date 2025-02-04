@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - "v*"  # Odpala workflow na tagach zaczynających się od "v"
-
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
