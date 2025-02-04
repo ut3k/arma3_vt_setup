@@ -20,6 +20,9 @@ jobs:
 
       - name: Edytowanie plików HTML
         run: |
+          # TODO
+          # nie dodaje nazwy pliku do content
+          # trzeba jeszcze poprawić tytuł jakiś H1 czy coś 
           VERSION=${{ env.VERSION }}
           for file in VT_ARMADA_*.html VT_PHANTOM_*.html VT_SPARTAN_*.html; do
             if [ -f "$file" ]; then
@@ -34,6 +37,8 @@ jobs:
           tag_name: ${{ github.ref }}
           name: Release ${{ env.VERSION }}
           files: |
+            # TODO
+            # nie wprowadza nazw wersji, nadal dodaje sourcecode
             VT_ARMADA_*.html
             VT_Phantom_*.html
             VT_SPARTAN_*.html
