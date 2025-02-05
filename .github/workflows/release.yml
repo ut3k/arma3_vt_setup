@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.13.0' 
       - name: Process HTML files
-        run: python scripts/process_html.py
+        run: python process_html.py
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
