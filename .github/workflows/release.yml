@@ -3,48 +3,26 @@ name: Release HTML Files
 on:
   push:
     tags:
-      - "v*"  # Odpala workflow na tagach zaczynających się od "v"
-
-permissions:
-  contents: write
+      - "v*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Pobranie numeru wersji z taga
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-
-      - name: Edytowanie plików HTML
-        run: |
-          VERSION=${{ env.VERSION }}
-          FILES=()
-          for file in VT_*_.html; do
-            if [ -f "$file" ]; then
-              BASENAME=$(basename "$file" .html)
-              NEW_FILE="${BASENAME}_v${VERSION}.html"
-              sed -i "s|<meta name=\"arma:PresetName\" content=\"[^\"]*\"|<meta name=\"arma:PresetName\" content=\"${BASENAME}_${VERSION}\"|g" "$file"
-              sed -i "s|<h1>Arma 3 - Preset <strong>[^<]*</strong></h1>|<h1>Arma 3 - Preset <strong>${BASENAME}_${VERSION}</strong></h1>|g" "$file"
-              mv "$file" "$NEW_FILE"
-              FILES+=("$NEW_FILE")
-            fi
-          done
-          printf "%s\n" "${FILES[@]}" > release_files.txt
-
-      - name: Sprawdzenie zmodyfikowanych plików
-        run: cat release_files.txt
-
-      - name: Utworzenie Release
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Zmień na odpowiednią wersję Pythona
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # Jeśli masz wymagania, dodaj requirements.txt
+      - name: Process HTML files
+        run: python process_html.py
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref }}
           name: Release ${{ env.VERSION }}
-          files: |
-            $(cat release_files.txt)
+          files: release_files.txt
           draft: false
           prerelease: false
