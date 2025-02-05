@@ -4,8 +4,10 @@ on:
   push:
     tags:
       - "v*"  # Odpala workflow na tagach zaczynających się od "v"
+
 permissions:
   contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,14 +22,14 @@ jobs:
 
       - name: Edytowanie plików HTML
         run: |
-          # TODO
-          # nie dodaje nazwy pliku do content
-          # trzeba jeszcze poprawić tytuł jakiś H1 czy coś 
           VERSION=${{ env.VERSION }}
-          for file in VT_ARMADA_*.html VT_PHANTOM_*.html VT_SPARTAN_*.html; do
+          for file in VT_ARMADA_.html VT_PHANTOM_.html VT_SPARTAN_.html; do
             if [ -f "$file" ]; then
               BASENAME=$(basename "$file" .html)
-              sed -i "s|<meta name=\"arma:PresetName\" content=\"[^\"]*\"|<meta name=\"arma:PresetName\" content=\"$BASENAME_$VERSION\"|g" "$file"
+              NEW_FILE="${BASENAME}_v${VERSION}.html"
+              sed -i "s|<meta name=\"arma:PresetName\" content=\"[^"]*\"|<meta name=\"arma:PresetName\" content=\"${BASENAME}_${VERSION}\"|g" "$file"
+              sed -i "s|<h1>Arma 3 - Preset <strong>[^"]*</strong></h1>|<h1>Arma 3 - Preset <strong>${BASENAME}_${VERSION}</strong></h1>|g" "$file"
+              mv "$file" "$NEW_FILE"
             fi
           done
 
@@ -36,11 +38,10 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           name: Release ${{ env.VERSION }}
-          files: |
-            # TODO
-            # nie wprowadza nazw wersji, nadal dodaje sourcecode
-            VT_ARMADA_*.html
-            VT_Phantom_*.html
-            VT_SPARTAN_*.html
+          files: ${{ join(fromJSON('["' + join('","', steps.list_files.outputs.files) + '"]'), '\n') }}
           draft: false
           prerelease: false
+
+      - name: Lista zmienionych plików
+        id: list_files
+        run: echo "files=$(find . -name 'VT_*_v${{ env.VERSION }}.html' -printf '%p\n' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
