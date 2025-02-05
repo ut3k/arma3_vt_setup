@@ -14,8 +14,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'  # Zmień na odpowiednią wersję Pythona
-      - name: Install dependencies
-        run: pip install -r requirements.txt  # Jeśli masz wymagania, dodaj requirements.txt
       - name: Process HTML files
         run: python process_html.py
       - name: Create Release
