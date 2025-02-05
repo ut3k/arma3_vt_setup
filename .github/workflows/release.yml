@@ -1,7 +1,9 @@
 name: Release HTML Files
+
 permissions:
   contents: write 
-  # Add this line
+  releases: write 
+
 on:
   push:
     tags:
@@ -15,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Zmień na odpowiednią wersję Pythona
+          python-version: '3.x'
       - name: Process HTML files
         run: python scripts/process_html.py
       - name: Create Release
@@ -23,6 +25,9 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           name: Release ${{ env.VERSION }}
-          files: release_files.txt
+          body: |
+            **Changes:**
+            - ...
+          files: scripts/release_files.txt  # Check if this is the correct path
           draft: false
           prerelease: false
