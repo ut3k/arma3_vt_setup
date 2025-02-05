@@ -34,13 +34,17 @@ jobs:
               FILES+=("$NEW_FILE")
             fi
           done
-          echo "FILES=${FILES[@]}" >> $GITHUB_ENV
+          printf "%s\n" "${FILES[@]}" > release_files.txt
+
+      - name: Sprawdzenie zmodyfikowanych plików
+        run: cat release_files.txt
 
       - name: Utworzenie Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref }}
           name: Release ${{ env.VERSION }}
-          files: ${{ env.FILES }}
+          files: |
+            $(cat release_files.txt)
           draft: false
           prerelease: false
