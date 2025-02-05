@@ -28,8 +28,8 @@ jobs:
             if [ -f "$file" ]; then
               BASENAME=$(basename "$file" .html)
               NEW_FILE="${BASENAME}_v${VERSION}.html"
-              sed -i 's|<meta name="arma:PresetName" content="[^"]*"|<meta name="arma:PresetName" content="'"$BASENAME"_'"'"$VERSION"'"'"|g' "$file"
-              sed -i 's|<h1>Arma 3 - Preset <strong>[^<]*</strong></h1>|<h1>Arma 3 - Preset <strong>'"$BASENAME"'_"'"$VERSION"'"'</strong></h1>|g' "$file"
+              sed -i "s|<meta name=\"arma:PresetName\" content=\"[^\"]*\"|<meta name=\"arma:PresetName\" content=\"${BASENAME}_${VERSION}\"|g" "$file"
+              sed -i "s|<h1>Arma 3 - Preset <strong>[^<]*</strong></h1>|<h1>Arma 3 - Preset <strong>${BASENAME}_${VERSION}</strong></h1>|g" "$file"
               mv "$file" "$NEW_FILE"
               FILES+=("$NEW_FILE")
             fi
