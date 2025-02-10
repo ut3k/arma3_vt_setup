@@ -20,12 +20,24 @@ jobs:
         name: process HTML
       - run: ls tmp/
         name: List Files
-      - name: upload Artifacts
+      - name: upload ARMADA
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: tmp/VT_ARMADA*.html
+          if-no-files-found: error
+          compression-level: 0
+      - name: upload PHANTOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
           path: tmp/VT_PHANTOM*.html
+          if-no-files-found: error
+          compression-level: 0
+      - name: upload SPARTAN
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
           path: tmp/VT_SPARTAN*.html
           if-no-files-found: error
           compression-level: 0
