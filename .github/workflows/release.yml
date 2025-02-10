@@ -24,6 +24,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: tmp/*.html
+          path: tmp/VT_ARMADA*.html
+          path: tmp/VT_PHANTOM*.html
+          path: tmp/VT_SPARTAN*.html
           if-no-files-found: error
           compression-level: 0
