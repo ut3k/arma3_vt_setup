@@ -25,3 +25,5 @@ jobs:
         with:
           name: artifacts
           path: tmp/*.html
+          if-no-files-found: error
+          compression-level: 0
