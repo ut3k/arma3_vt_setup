@@ -20,3 +20,8 @@ jobs:
         name: process HTML
       - run: ls tmp/
         name: List Files
+      - name: upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: tmp/
