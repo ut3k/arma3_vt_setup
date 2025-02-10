@@ -5,26 +5,15 @@ on:
     tags:
       - "v*"
 
-permissions:
-  contents: write 
-  # Corrected key: 'releases' instead of 'releases'
 
 jobs:
   build:
+    name: Build Presets
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.13.0' 
-      - name: Process HTML files
-        run: python process_html.py
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ env.VERSION }}
-          files: scripts/release_files.txt 
-          draft: false
-          prerelease: false
+        name: checkout GITHUB code
+      - run: scripts/process_presets.sh .
+        name: process HTML
+      - run: ls tmp/
+        name: List Files
