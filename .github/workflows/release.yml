@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: checkout GITHUB code
+      - name: Pobranie numeru wersji z taga
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
       - run: scripts/process_presets.sh .
         name: process HTML
       - run: ls tmp/
