@@ -25,4 +25,4 @@ jobs:
         with:
           token: ${{ github.token }}
           overwrite: 'true'
-          files: "*.html"
+          files: "tmp/*.html"
