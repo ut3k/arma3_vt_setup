@@ -23,6 +23,6 @@ jobs:
       - name: Upload ARMADA to Release
         uses: SierraSoftworks/gh-releases@v1.0.7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           overwrite: 'true'
           files: "*.html"
