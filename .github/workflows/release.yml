@@ -1,28 +1,36 @@
 name: Release HTML Files
-
 on:
   push:
     tags:
       - "v*"
 
-
 jobs:
   build:
     name: Build Presets
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Wymagane do tworzenia release
     steps:
-      - uses: actions/checkout@v3
-        name: checkout GITHUB code
+      - uses: actions/checkout@v4
+        name: Checkout GITHUB code
+        
       - name: Pobranie numeru wersji z taga
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-      - run: scripts/process_presets.sh .
-        name: process HTML
-      - run: ls tmp/
-        name: List Files
-      - name: Upload ARMADA to Release
-        uses: SierraSoftworks/gh-releases@v1.0.7
+        
+      - name: Process HTML
+        run: scripts/process_presets.sh .
+        
+      - name: List Files
+        run: ls -la tmp/
+        
+      - name: Create Release and Upload HTML Files
+        uses: softprops/action-gh-release@v1
         with:
-          token: ${{ github.token }}
-          overwrite: 'true'
-          files: "tmp/*.html"
+          files: tmp/*.html
+          name: Release ${{ env.VERSION }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
