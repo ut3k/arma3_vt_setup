@@ -1,114 +1,67 @@
 #!/bin/bash
 
-# Skrypt do sortowania tabeli HTML według kolumny DisplayName
-# Użycie: ./sort_html_table.sh [plik.html] lub ./sort_html_table.sh (dla wszystkich plików .html)
-
 INPUT_FILE="$1"
 
-# Funkcja sortująca pojedynczy plik
 sort_html_file() {
   local file="$1"
+  echo "Sortowanie pliku: $file"
 
-  echo "Sortowanie tabeli w pliku: $file"
-
-  # Sprawdzenie czy plik ma tabelę z modami
+  # Sprawdzenie czy plik zawiera mody
   if ! grep -q 'class="mod-list"' "$file" || ! grep -q 'data-type="ModContainer"' "$file"; then
-    echo "  - Plik nie zawiera tabeli z modami, pomijam..."
+    echo "  - Pomijam: brak modów w pliku."
     return
   fi
 
-  # Tworzenie kopii zapasowej
   cp "$file" "${file}.backup"
-  echo "  - Utworzono kopię zapasową: ${file}.backup"
+  echo "  - Backup zapisany jako: ${file}.backup"
 
-  # Tworzenie pliku tymczasowego
   local temp_file=$(mktemp)
+  local sorted_rows=$(mktemp)
 
-  # Wyodrębnienie części przed tabelą
-  awk '/<div class="mod-list">/{found=1} !found{print}' "$file" >"$temp_file"
-
-  # Dodanie początku div i table
-  echo '    <div class="mod-list">' >>"$temp_file"
-  echo '      <table>' >>"$temp_file"
-
-  # Wyodrębnienie wierszy tabeli z data-type="ModContainer", sortowanie i dodanie do pliku
-  grep -A 20 'data-type="ModContainer"' "$file" |
-    sed '/^--$/d' |
-    awk '
-    BEGIN { RS="</tr>"; ORS="" }
-    /data-type="ModContainer"/ {
-        # Wyciągnij nazwę z DisplayName
-        match($0, /data-type="DisplayName">([^<]+)</, arr)
-        name = arr[1]
-        # Przygotuj cały wiersz do sortowania
-        gsub(/\n/, " ", $0)  # usuń znaki nowej linii
-        print name "\t" $0 "</tr>\n"
-    }
-    ' |
+  # Wyciągnij wszystkie <tr>...</tr> w obrębie mod-list
+  awk '/<tr data-type="ModContainer">/,/<\/tr>/' "$file" |
+    awk 'BEGIN { RS="</tr>"; ORS="" }
+         /data-type="DisplayName"/ {
+           gsub(/\n/, " ");
+           match($0, /data-type="DisplayName">([^<]+)</, a);
+           if (a[1] != "") print a[1] "\t<tr" substr($0, index($0, " data-type=\"ModContainer\"")) "</tr>\n"
+         }' |
     sort -f -k1,1 |
-    cut -f2- >>"$temp_file"
+    cut -f2- >"$sorted_rows"
 
-  # Dodanie końca tabeli i div
-  echo '      </table>' >>"$temp_file"
-  echo '    </div>' >>"$temp_file"
+  # Składanie pliku wynikowego
+  awk '
+    BEGIN { keep = 1 }
+    /<div class="mod-list">/ { print; print "      <table>"; keep = 0 }
+    /<\/table>/ && keep == 0 { next }
+    /<\/div>/ && keep == 0 { print "      </table>"; print; keep = 1; next }
+    keep { print }
+  ' "$file" >"$temp_file"
 
-  # Wyodrębnienie części po tabeli (od dlc-list do końca)
-  awk '/class="dlc-list"/{found=1} found{print}' "$file" >>"$temp_file"
+  # Wklej posortowane wiersze do pliku tymczasowego
+  sed -i "/<table>/r $sorted_rows" "$temp_file"
 
-  # Przeniesienie posortowanego pliku na miejsce oryginalnego
+  # Zamiana oryginału
   mv "$temp_file" "$file"
+  rm "$sorted_rows"
 
-  echo "  - Gotowe! Tabela została posortowana alfabetycznie."
-
-  # Wyświetlenie pierwszych kilku nazw modów dla weryfikacji
-  echo "  - Pierwsze 5 modów po sortowaniu:"
-  grep -o 'data-type="DisplayName">[^<]*' "$file" |
-    sed 's/data-type="DisplayName">//' |
-    head -5 |
-    sed 's/^/    /'
-  echo ""
+  echo "  - Gotowe. Plik powinien działać w Arma Launcherze."
 }
 
-# Główna logika skryptu
+# Logika główna
 if [ -z "$INPUT_FILE" ]; then
-  # Brak parametru - sortuj wszystkie pliki .html
   html_files=(*.html)
-
   if [ ! -e "${html_files[0]}" ]; then
-    echo "Brak plików .html w bieżącym katalogu!"
+    echo "Brak plików HTML!"
     exit 1
   fi
-
-  echo "Znaleziono ${#html_files[@]} plik(ów) .html w bieżącym katalogu:"
-  for file in "${html_files[@]}"; do
-    echo "  - $file"
-  done
-  echo ""
-
-  read -p "Czy chcesz kontynuować sortowanie wszystkich plików? (t/n): " -n 1 -r
-  echo ""
-
-  if [[ ! $REPLY =~ ^[TtYy]$ ]]; then
-    echo "Anulowano."
-    exit 0
-  fi
-
-  echo "Rozpoczynam sortowanie wszystkich plików .html..."
-  echo "================================================"
-
   for file in "${html_files[@]}"; do
     sort_html_file "$file"
   done
-
-  echo "================================================"
-  echo "Ukończono sortowanie wszystkich plików!"
-
 else
-  # Podano parametr - sortuj konkretny plik
   if [ ! -f "$INPUT_FILE" ]; then
-    echo "Błąd: Plik '$INPUT_FILE' nie istnieje!"
+    echo "Nie znaleziono pliku: $INPUT_FILE"
     exit 1
   fi
-
   sort_html_file "$INPUT_FILE"
 fi
