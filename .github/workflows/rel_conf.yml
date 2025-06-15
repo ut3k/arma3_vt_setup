@@ -1,0 +1,41 @@
+name: Add Config File to Release
+
+on:
+  push:
+    tags:
+      - 'c*'  # Uruchamia się tylko dla tagów zaczynających się od 'c'
+
+jobs:
+  add-config-to-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Extract tag name
+      id: tag
+      run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Check if config file exists
+      run: |
+        if [ ! -f "vt_config_.txt" ]; then
+          echo "Plik vt_config_.txt nie istnieje!"
+          exit 1
+        fi
+    
+    - name: Rename config file
+      run: |
+        TAG_NAME="${{ steps.tag.outputs.tag_name }}"
+        NEW_FILENAME="vt_config_${TAG_NAME}.txt"
+        cp vt_config_.txt "$NEW_FILENAME"
+        echo "Plik został skopiowany jako: $NEW_FILENAME"
+    
+    - name: Create Release with Asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: vt_config_${{ steps.tag.outputs.tag_name }}.txt
+        name: Release ${{ steps.tag.outputs.tag_name }}
+        body: Automated release for tag ${{ steps.tag.outputs.tag_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
