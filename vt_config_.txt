@@ -58,10 +58,10 @@ ace_arsenal_showUnavailableItems = 0;
 
 // ACE Artillery
 force force ace_artillerytables_advancedCorrections = false;
-force force ace_artillerytables_disableArtilleryComputer = false;
+force force ace_artillerytables_disableArtilleryComputer = true;
 force force ace_mk6mortar_airResistanceEnabled = false;
-force force ace_mk6mortar_allowCompass = true;
-force force ace_mk6mortar_allowComputerRangefinder = true;
+force force ace_mk6mortar_allowCompass = false;
+force force ace_mk6mortar_allowComputerRangefinder = false;
 force force ace_mk6mortar_useAmmoHandling = false;
 
 // ACE Captives
@@ -90,7 +90,7 @@ force force ace_common_progressBarInfo = 2;
 force force ace_common_restedSwayFactor = 1;
 force force ace_common_settingFeedbackIcons = 1;
 force force ace_common_settingProgressBarLocation = 0;
-force force ace_common_swayFactor = 1;
+force force ace_common_swayFactor = 0.75;
 
 // ACE Cook-off
 force force ace_cookoff_ammoCookoffDuration = 1;
@@ -218,8 +218,8 @@ force force ace_interact_menu_menuBackgroundSelf = 0;
 force force ace_interact_menu_selectorColor = [1,0,0];
 force force ace_interact_menu_shadowSetting = 2;
 force force ace_interact_menu_textSize = 2;
-force force ace_interact_menu_useListMenu = false;
-force force ace_interact_menu_useListMenuSelf = false;
+ace_interact_menu_useListMenu = false;
+ace_interact_menu_useListMenuSelf = false;
 
 // ACE Interaction Menu (Self) - More
 ace_interact_menu_more__ACE_CheckAirTemperature = false;
@@ -658,10 +658,10 @@ force force ace_medical_painUnconsciousThreshold = 0.5;
 force force ace_medical_playerDamageThreshold = 1;
 force force ace_medical_spontaneousWakeUpChance = 0.3;
 force force ace_medical_spontaneousWakeUpEpinephrineBoost = 1.5;
-force force ace_medical_statemachine_AIUnconsciousness = true;
+force force ace_medical_statemachine_AIUnconsciousness = false;
 force force ace_medical_statemachine_cardiacArrestBleedoutEnabled = true;
 force force ace_medical_statemachine_cardiacArrestTime = 480;
-force force ace_medical_statemachine_fatalInjuriesAI = 1;
+force force ace_medical_statemachine_fatalInjuriesAI = 0;
 force force ace_medical_statemachine_fatalInjuriesPlayer = 1;
 force ace_medical_useLimbDamage = 1;
 force force ace_medical_vitals_simulateSpO2 = true;
@@ -726,7 +726,7 @@ force force ace_medical_treatment_cprSuccessChanceMax = 0.6;
 force force ace_medical_treatment_cprSuccessChanceMin = 0.4;
 force force ace_medical_treatment_graveDiggingMarker = true;
 force force ace_medical_treatment_holsterRequired = 0;
-force force ace_medical_treatment_litterCleanupDelay = 600;
+force force ace_medical_treatment_litterCleanupDelay = 480;
 force ace_medical_treatment_locationAdenosine = 0;
 force force ace_medical_treatment_locationEpinephrine = 0;
 force force ace_medical_treatment_locationIV = 0;
@@ -854,7 +854,7 @@ force force ace_repair_wheelRepairRequiredItems = [];
 
 // ACE Respawn
 force force ace_respawn_removeDeadBodiesDisconnected = true;
-force force ace_respawn_savePreDeathGear = false;
+force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
 force force ace_scopes_correctZeroing = true;
@@ -1096,10 +1096,10 @@ ctab_core_uav_mode = 1;
 ctab_core_useAceMicroDagr = true;
 ctab_core_useArmaMarker = true;
 ctab_core_useMils = false;
-ctab_irl_connect_enabled = true;
+ctab_irl_connect_enabled = false;
 ctab_irl_connect_key = "";
 ctab_irl_connect_syncMap = true;
-ctab_irl_connect_uri = "https://ctab.plan-ops.fr/hub";
+ctab_irl_connect_uri = "";
 
 // DUI - Squad Radar - Indicators
 force force diwako_dui_indicators_crew_range_enabled = false;
@@ -1179,7 +1179,7 @@ force force diwako_dui_compass_hide_blip_alone_group = false;
 force force diwako_dui_compass_icon_scale = 1;
 force force diwako_dui_compass_opacity = 1;
 force force diwako_dui_compass_style = ["\z\diwako_dui\addons\radar\UI\compass_styles\standard\compass_limited.paa","\z\diwako_dui\addons\radar\UI\compass_styles\standard\compass.paa"];
-force force diwako_dui_compassRange = 35;
+force force diwako_dui_compassRange = 50;
 force force diwako_dui_compassRefreshrate = 0;
 force force diwako_dui_dir_showMildot = false;
 force force diwako_dui_dir_size = 1.25;
