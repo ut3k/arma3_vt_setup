@@ -36,6 +36,6 @@ jobs:
       with:
         files: vt_config_${{ steps.tag.outputs.tag_name }}.txt
         name: Release ${{ steps.tag.outputs.tag_name }}
-        body: Automated release for tag ${{ steps.tag.outputs.tag_name }}
-      env:
+        body: ${{ steps.commit_msg.outputs.commit_message }}
+        env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
