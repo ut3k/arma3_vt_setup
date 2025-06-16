@@ -37,5 +37,5 @@ jobs:
         files: vt_config_${{ steps.tag.outputs.tag_name }}.txt
         name: Release ${{ steps.tag.outputs.tag_name }}
         body: ${{ steps.commit_msg.outputs.commit_message }}
-        env:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
