@@ -157,7 +157,7 @@ force force ace_dragging_weightCoefficient = 1;
 force force ace_explosives_customTimerDefault = 30;
 force force ace_explosives_customTimerMax = 900;
 force force ace_explosives_customTimerMin = 5;
-force fotrce ace_explosives_explodeOnDefuse = true;
+force force ace_explosives_explodeOnDefuse = true;
 force force ace_explosives_punishNonSpecialists = true;
 force force ace_explosives_requireSpecialist = false;
 
