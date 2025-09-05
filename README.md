@@ -1,2 +1,4 @@
 # arma3_vt_setup
-zmiana testowa tfefe
+Aktualna wersje
+- Presety V8
+- Config v8b
