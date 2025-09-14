@@ -47,12 +47,12 @@ force force ace_vehicle_damage_enabled = false;
 force force ace_ai_assignNVG = false;
 
 // ACE Armor Adjuster
-force AAA_VAR_AI_ARMOR_COEF = 6;
+force AAA_VAR_AI_ARMOR_COEF = 12;
 force AAA_VAR_ARMOR_THRESHOLD_VALUE = 0;
 force AAA_VAR_BASE_ARMOR_VALUE = 0;
 force AAA_VAR_BLUFOR_ARMOR_COEF = 0;
 force AAA_VAR_CIV_ARMOR_COEF = 0;
-force AAA_VAR_DEBUG = true;
+force AAA_VAR_DEBUG = false;
 force AAA_VAR_EXPLOSIVE_MULT = 0;
 force AAA_VAR_FORCE_BASE_ARMOR = false;
 force AAA_VAR_HITABDOMEN_ENABLED = true;
@@ -679,8 +679,8 @@ force force ace_maptools_rotateModifierKey = 1;
 // ACE Medical
 force force ace_medical_ai_enabledFor = 0;
 force force ace_medical_ai_requireItems = 0;
-force force ace_medical_AIDamageThreshold = 1;
-force ace_medical_alternateArmorPenetration = true;
+force force ace_medical_AIDamageThreshold = 0.8;
+force ace_medical_alternateArmorPenetration = false
 force force ace_medical_bleedingCoefficient = 1;
 force force ace_medical_blood_bloodLifetime = 900;
 force force ace_medical_blood_enabledFor = 2;
