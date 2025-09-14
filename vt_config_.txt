@@ -253,7 +253,7 @@ force force ace_interact_menu_colorShadowMax = [0,0,0,1];
 force force ace_interact_menu_colorShadowMin = [0,0,0,0.25];
 force force ace_interact_menu_colorTextMax = [1,1,1,1];
 force force ace_interact_menu_colorTextMin = [1,1,1,0.25];
-force force ace_interact_menu_consolidateSingleChild = false;
+force force ace_interact_menu_consolidateSingleChild = true;
 force force ace_interact_menu_cursorKeepCentered = false;
 force force ace_interact_menu_cursorKeepCenteredSelfInteraction = false;
 force force ace_interact_menu_menuAnimationSpeed = 0;
@@ -680,7 +680,7 @@ force force ace_maptools_rotateModifierKey = 1;
 force force ace_medical_ai_enabledFor = 0;
 force force ace_medical_ai_requireItems = 0;
 force force ace_medical_AIDamageThreshold = 0.8;
-force ace_medical_alternateArmorPenetration = false
+force ace_medical_alternateArmorPenetration = false;
 force force ace_medical_bleedingCoefficient = 1;
 force force ace_medical_blood_bloodLifetime = 900;
 force force ace_medical_blood_enabledFor = 2;
@@ -1114,6 +1114,11 @@ force force acre_sys_zeus_zeusDefaultVoiceSource = false;
 // Backpack On Chest
 force force bocr_main_disabled = false;
 force force bocr_main_walk = true;
+
+// Blastcore Murr Edition
+WarFXPE_BlastWave = 1;
+WarFXPE_HeatHaze = true;
+WarFXPE_WeatherEffects = true;
 
 // Community Base Addons
 cba_diagnostic_ConsoleIndentType = -1;
