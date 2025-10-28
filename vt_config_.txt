@@ -232,36 +232,36 @@ force force ace_hearing_explosionDeafnessCoefficient = 1;
 force force ace_hearing_unconsciousnessVolume = 0.4;
 
 // ACE Interaction
-force force ace_interaction_disableNegativeRating = false;
-force force ace_interaction_enableAnimActions = true;
-force force ace_interaction_enableGroupRenaming = true;
-force force ace_interaction_enableMagazinePassing = true;
-force force ace_interaction_enableTeamManagement = true;
+force ace_interaction_disableNegativeRating = false;
+force ace_interaction_enableAnimActions = true;
+force ace_interaction_enableGroupRenaming = true;
+ace_interaction_enableMagazinePassing = true;
+force ace_interaction_enableTeamManagement = true;
 ace_interaction_enableThrowablePassing = true;
-force force ace_interaction_enableWeaponAttachments = true;
-force force ace_interaction_interactWithEnemyCrew = 0;
-force force ace_interaction_interactWithTerrainObjects = false;
-force force ace_interaction_remoteTeamManagement = true;
+ace_interaction_enableWeaponAttachments = true;
+force ace_interaction_interactWithEnemyCrew = 0;
+force ace_interaction_interactWithTerrainObjects = false;
+force ace_interaction_remoteTeamManagement = true;
 
 // ACE Interaction Menu
-force force ace_gestures_showOnInteractionMenu = 2;
-force force ace_interact_menu_actionOnKeyRelease = true;
-force force ace_interact_menu_addBuildingActions = false;
-force force ace_interact_menu_alwaysUseCursorInteraction = false;
-force force ace_interact_menu_alwaysUseCursorSelfInteraction = true;
-force force ace_interact_menu_colorShadowMax = [0,0,0,1];
-force force ace_interact_menu_colorShadowMin = [0,0,0,0.25];
-force force ace_interact_menu_colorTextMax = [1,1,1,1];
-force force ace_interact_menu_colorTextMin = [1,1,1,0.25];
-force force ace_interact_menu_consolidateSingleChild = false;
-force force ace_interact_menu_cursorKeepCentered = false;
-force force ace_interact_menu_cursorKeepCenteredSelfInteraction = false;
-force force ace_interact_menu_menuAnimationSpeed = 0;
-force force ace_interact_menu_menuBackground = 0;
-force force ace_interact_menu_menuBackgroundSelf = 0;
-force force ace_interact_menu_selectorColor = [1,0,0];
-force force ace_interact_menu_shadowSetting = 2;
-force force ace_interact_menu_textSize = 2;
+ace_gestures_showOnInteractionMenu = 2;
+ace_interact_menu_actionOnKeyRelease = true;
+ace_interact_menu_addBuildingActions = false;
+ace_interact_menu_alwaysUseCursorInteraction = false;
+ace_interact_menu_alwaysUseCursorSelfInteraction = true;
+ace_interact_menu_colorShadowMax = [0,0,0,1];
+ace_interact_menu_colorShadowMin = [0,0,0,0.25];
+ace_interact_menu_colorTextMax = [1,1,1,1];
+ace_interact_menu_colorTextMin = [1,1,1,0.25];
+ace_interact_menu_consolidateSingleChild = true;
+ace_interact_menu_cursorKeepCentered = false;
+ace_interact_menu_cursorKeepCenteredSelfInteraction = false;
+ace_interact_menu_menuAnimationSpeed = 0;
+ace_interact_menu_menuBackground = 0;
+ace_interact_menu_menuBackgroundSelf = 0;
+ace_interact_menu_selectorColor = [1,0,0];
+ace_interact_menu_shadowSetting = 2;
+ace_interact_menu_textSize = 2;
 ace_interact_menu_useListMenu = true;
 ace_interact_menu_useListMenuSelf = true;
 
@@ -300,6 +300,7 @@ ace_interact_menu_more__acre_sys_zeus_remoteEars = false;
 ace_interact_menu_more__KAT_Equipment = false;
 ace_interact_menu_more__Medical = false;
 ace_interact_menu_more__SwitchToCamera = false;
+ace_interact_menu_more__vtx_detachHook = false;
 
 // ACE Interaction Menu (Self) - Move to Root
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_atragmx_open = false;
@@ -360,6 +361,7 @@ ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_lower = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_onBack = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_onChest = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_swap = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__uh60_jvmf_tablet = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_FACE = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_FACE__USP_ADVANCER_DOWN = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_FACE__USP_ADVANCER_OFF = false;
@@ -415,6 +417,7 @@ ace_interact_menu_moveToRoot__ACE_Equipment__USP_NVG__USP_PVS31_ON_MONOR = false
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_NVG__USP_PVS31_ON_TARSIER = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_NVG__USP_PVS31_SWITCH_GP = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__USP_NVG__USP_PVS31_SWITCH_WP = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__vtx_stretcher_1 = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Cellphone = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Place = false;
 ace_interact_menu_moveToRoot__ace_gestures__ace_gestures_Advance = false;
@@ -680,7 +683,7 @@ force force ace_maptools_rotateModifierKey = 1;
 force force ace_medical_ai_enabledFor = 0;
 force force ace_medical_ai_requireItems = 0;
 force force ace_medical_AIDamageThreshold = 0.8;
-force ace_medical_alternateArmorPenetration = false
+force ace_medical_alternateArmorPenetration = false;
 force force ace_medical_bleedingCoefficient = 1;
 force force ace_medical_blood_bloodLifetime = 900;
 force force ace_medical_blood_enabledFor = 2;
@@ -1127,6 +1130,133 @@ cba_quicktime_qteShorten = false;
 cba_ui_notifyLifetime = 4;
 cba_ui_StorePasswords = 1;
 
+// DCO soldier FSM | 1.48
+SFSM_BFFknowledgeType = "one side";
+SFSM_DebugType = "curator";
+SFSM_disablefipo_module = false;
+SFSM_globalUD = false;
+force SFSM_KnowledgeToFight = 0.1;
+SFSM_noRubber = false;
+SFSM_simpleBff = true;
+SFSM_spawnBffActions = true;
+SFSM_storeMoraleData = false;
+
+// DCO soldier FSM | Actions
+SFSM_audioFeedbackType = "voice";
+SFSM_emergencyRearm = true;
+force SFSM_reactFireCoolDown = 180;
+SFSM_throwBackGrenade = true;
+
+// DCO soldier FSM | Capture
+SFSM_bombOnCapture = 0.2;
+SFSM_captiveAutoDeath = -1;
+SFSM_captureAbuseProb = 0.5;
+SFSM_captureExecProb = 1;
+SFSM_captureExplosive = "grenade";
+SFSM_captureTargets = "Everyone";
+SFSM_cptrAbuseProbPlr = 1;
+SFSM_cptrExecProbPlr = 0.9;
+SFSM_cptrPlrEscProb = 0.5;
+SFSM_cptrPlrEscTime = 7;
+
+// DCO soldier FSM | Close Quarter Combat (CQB)
+SFSM_clearHouse = true;
+force SFSM_CQBdistance = 70;
+force SFSM_CQBunitCap = 4;
+SFSM_houseDemolition = true;
+SFSM_rpgHouse = true;
+
+// DCO soldier FSM | Evasion Attack
+SFSM_allowEvasionAttack = true;
+SFSM_EA_feintPushLeft = true;
+SFSM_EA_feintPushRight = true;
+SFSM_EA_flankLeft = true;
+SFSM_EA_flankRight = true;
+SFSM_EA_ZigZag = true;
+force SFSM_evasionAttackCoolDown = 10;
+force SFSM_evasionAttackSpeed = 1.2;
+
+// DCO soldier FSM | Fighting Positions (FIPO)
+FIPO_idleAnimations = "['Acts_Executioner_Squat', 'Acts_AidlPercMstpSlowWrflDnon_pissing', 'Acts_AidlPercMstpSlowWrflDnon_warmup03', 'Acts_AidlPercMstpSnonWnonDnon_warmup_7_loop', 'Acts_AidlPercMstpSnonWnonDnon_warmup_6_loop']";
+SFSM_allowFipoTeleport = true;
+SFSM_fipoGetInDistance = 70;
+SFSM_fipoKnockOutTime = 120;
+SFSM_playerSpotTeleportDist = 200;
+SFSM_playerSquadFipo = false;
+
+// DCO soldier FSM | Headless Client
+force PR_Allow_HC = false;
+force PR_HC1 = "HC";
+force PR_Use_HC = false;
+
+// DCO soldier FSM | Medical
+SFSM_ACE_Revive = true;
+SFSM_dragWounded = true;
+SFSM_EmergencyHealing = "legs-only";
+force SFSM_maxDragDistance = 40;
+force SFSM_medicSearchDistance = 100;
+force SFSM_minEnemyDistForHealing = 0;
+
+// DCO soldier FSM | Movement
+SFSM_allowDodging = true;
+SFSM_allowEvasion = true;
+SFSM_allowFlinching = true;
+SFSM_breakCoverOnHit = true;
+force SFSM_DodgeCoolDown = 10;
+force SFSM_DodgeDistance = 60;
+SFSM_dodgeIndoors = true;
+force SFSM_DodgeTimer = 40;
+SFSM_ExcludeZcommand = false;
+force SFSM_explosionCoverRad = 70;
+force SFSM_FlinchCoolDown = 5;
+SFSM_flinchStopDodge = false;
+force SFSM_maxSprinters = 15;
+SFSM_noCoverPanic = false;
+force SFSM_panicCoef = 0.5;
+SFSM_PlayerGrpDodge = false;
+force SFSM_RpsDodgeTrigger = 4;
+force SFSM_sprintSpeed = 1.2;
+force SFSM_stayCoverPosTime = 20;
+
+// DCO soldier FSM | Overrun
+SFSM_allowPanic = true;
+SFSM_allowSurrender = true;
+SFSM_overRun = true;
+SFSM_overRunDistance = 40;
+SFSM_playerSquadOverRun = true;
+
+// DCO soldier FSM | Player Options
+SFSM_autoStanceAction = true;
+SFSM_autoStanceEnabled = true;
+SFSM_buddyHeal = true;
+SFSM_buddyRearm = true;
+
+// DCO soldier FSM | Sound Reaction
+force SFSM_shotDistanceAss = 400;
+force SFSM_shotDistanceDef = 300;
+force SFSM_shotDistanceMac = 600;
+force SFSM_shotDistanceSil = 100;
+force SFSM_shotDistanceSni = 800;
+
+// DCO soldier FSM | Specialists
+SFSM_AtSpecHuntVehicles = true;
+SFSM_disableSpecialists = "player-squads";
+force SFSM_huntCooldown = 10;
+SFSM_marksmanFSM = true;
+force SFSM_maxAts = 4;
+force SFSM_maxHuntTime = 300;
+force SFSM_maxMgs = 4;
+SFSM_mgSuppression = true;
+force SFSM_specRegroupDist = 150;
+
+// DCO soldier FSM | Vehicles
+force SFSM_hearingDistance = 250;
+SFSM_hearingHide = true;
+SFSM_hideFromVehicles = true;
+force SFSM_hidingTimeOut = 30;
+SFSM_hijackVehicles = "action";
+force SFSM_turretLeaderDist = 40;
+
 // DUI - Squad Radar - Indicators
 force force diwako_dui_indicators_crew_range_enabled = false;
 force force diwako_dui_indicators_fov_scale = false;
@@ -1284,6 +1414,18 @@ force force emr_main_preventHighVaulting = false;
 force force emr_main_staminaCoefficient = 1;
 force force emr_main_whitelistStr = "";
 force force emr_main_yeetCoefficient = 1.4;
+
+// Hatchet Vehicle Framework
+hct_interaction_autoclose_actionmenu = false;
+hct_interaction_cursorColor = [0.95,0.95,0.95,1];
+hct_interaction_cursorText = "×";
+hct_interaction_pointing = true;
+hct_interaction_showDebugMessages = false;
+hct_interaction_showLabels = 2;
+hct_interaction_trackIR_interaction_cursor = false;
+hct_interaction_trackIR_interaction_cursor_invert = false;
+hct_interaction_trackIR_interaction_cursorSensitivity = 2.5;
+hct_interaction_updateEvery = 5;
 
 // Hide Among The Grass
 force force hatg_setting_building = true;
@@ -1695,6 +1837,84 @@ L_Immerse_force = true;
 force force L_Immerse_recoil = false;
 force force L_Immerse_twitch = true;
 
+// Pinned Down
+force Mikeys_AISkill_cap = 0.35;
+force Mikeys_AISup_burstSec = 1.5;
+force Mikeys_AISup_capSec = 12;
+force Mikeys_AISup_distance = 15;
+force Mikeys_AISup_halflife = 5;
+force Mikeys_AISup_strength = 1;
+force Mikeys_AISupEnable = true;
+force Mikeys_AIUseSuppressiveFire = true;
+Mikeys_PLAYER_SUP_ENABLED = true;
+force MKY_BRAIN_HYBRID = true;
+force PD_AIM_DMG_MULT = 3;
+force PD_AIM_EASE = 0.07;
+force PD_AIM_MAX = 12;
+force PD_AIM_SUP_MULT = 2.2;
+force PD_BLINK_COOLDOWN = 0;
+force force PD_BLINK_ENABLE = false;
+force PD_CAMSHAKE_ENABLE = true;
+force PD_CAMSHAKE_MULT = 1.25;
+force PD_DECAY_HALFLIFE = 1.1;
+force PD_EVENT_LATCH = 0.25;
+force PD_MIN_IMPULSE_UP = 0.02;
+force PD_RECOIL_STRESS_MULT = 0.91;
+force PD_RED_CAP = 0;
+force PD_SUP_FLOOR = 0.08;
+force PD_TICK = 0.5;
+force PD_TUNNEL_CAP = 0.88024;
+force PD_TUNNEL_CD = 0.35;
+force PD_TUNNEL_FADE = 1.15;
+force PD_TUNNEL_ONSET = 0.05;
+force PD_VISUAL_MODE = 1;
+
+// UH-60M
+force vtx_ace_viv_loadDistance = 15;
+force vtx_ace_viv_timeFactor = 1;
+vtx_uh60_anvishud_defaultMode = -1;
+vtx_uh60_anvishud_settingBrightness = 0.6;
+vtx_uh60_anvishud_settingColor = [0.082,0.608,0.039];
+vtx_uh60_flir_setting_AimSlewBlockMouse = true;
+vtx_uh60_flir_setting_AimSlewSpeed = 1;
+vtx_uh60_flir_setting_AimXFactor = 1;
+force vtx_uh60_flir_setting_animateTurret = true;
+vtx_uh60_flir_setting_KeySlewSpeed = 1;
+vtx_uh60_flir_setting_KeyXFactor = 1;
+force vtx_uh60_flir_setting_syncDelay = 0.015;
+vtx_uh60_hoist_setting_useAttachScript = false;
+vtx_uh60_jvmf_defaults = true;
+vtx_uh60_sfmPlus_showDamageHints = true;
+vtx_uh60_sfmPlusStabilatorEnabled = 1;
+vtx_uh60_ui_showDebugMessages = false;
+vtx_uh60m_enabled_aar = true;
+vtx_uh60m_enabled_cas = true;
+vtx_uh60m_enabled_engine = true;
+vtx_uh60m_enabled_fd = true;
+vtx_uh60m_enabled_flir = true;
+vtx_uh60m_enabled_fms = true;
+vtx_uh60m_enabled_jvmf = true;
+vtx_uh60m_enabled_mfd = true;
+vtx_uh60m_simpleCollective = false;
+vtx_uh60m_simpleStartup = false;
+
+// USAF
+force force usaf_afterburner_setting_allow_ai = true;
+force force USAF_allowNuke = true;
+force force usaf_debug_setting_enabled_clients = false;
+force force usaf_debug_setting_enabled_server = false;
+force force usaf_serviceMenu_setting_allowHangarRearm = true;
+force force usaf_serviceMenu_setting_allowHangarRefuel = true;
+force force usaf_serviceMenu_setting_allowHangarRepair = true;
+force force usaf_serviceMenu_setting_allowLoadoutModification = true;
+force force usaf_serviceMenu_setting_enabled = true;
+force force usaf_serviceMenu_setting_refuelTime = "100";
+force force usaf_serviceMenu_setting_reloadTime = "2";
+force force usaf_serviceMenu_setting_repairTime = "100";
+force force usaf_serviceMenu_setting_replaceSources = false;
+force force usaf_serviceMenu_setting_selectorSearchRadius = "15";
+force force usaf_setting_allow_aiFormlights = true;
+
 // Zeus Enhanced
 force force zen_area_markers_editableMarkers = 0;
 force force zen_building_markers_enabled = false;
@@ -1821,6 +2041,7 @@ zen_faction_filter_1_rhsgref_faction_cdf_ground_b = true;
 zen_faction_filter_1_rhsgref_faction_cdf_ground_b_groups = true;
 zen_faction_filter_1_rhsgref_faction_cdf_ng_b = true;
 zen_faction_filter_1_rhsgref_faction_hidf = true;
+force force zen_faction_filter_1_USAF = true;
 force force zen_faction_filter_2_IND_C_F = true;
 force force zen_faction_filter_2_IND_E_F = true;
 force force zen_faction_filter_2_IND_F = true;
@@ -1840,4 +2061,5 @@ zen_faction_filter_2_rhsgref_faction_un = true;
 force force zen_faction_filter_3_CIV_F = true;
 force force zen_faction_filter_3_CIV_IDAP_F = true;
 force force zen_faction_filter_3_EdCat_jbad_vehicles = true;
+zen_faction_filter_3_EdCat_Things = true;
 force force zen_faction_filter_3_IND_L_F = true;
