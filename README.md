@@ -9,3 +9,7 @@ Aktualna wersje
 
 Presety tag: v*(np vV9)
 Config tag: c* (cver_9)
+
+## Ciekawe na kiedyś
+
+[Generator misji SOCOM](https://steamcommunity.com/sharedfiles/filedetails/?id=2333896493)
