@@ -94,6 +94,14 @@ case "$choice" in
     run_local "scripts/gen_venom.sh"
   fi
   ;;
+3)
+  echo "🔧 Sortuję pliki HTML..."
+  if $HAS_DOCKER; then
+    # Uruchamiamy usługę 'sorter'
+    # Podajemy jej skrypt do uruchomienia:
+    run_in_docker "python3 scripts/sort_mods.py" "sorter"
+  else
+    run_local "scripts/sort_mods.sh"
   fi
   ;;
 0)
