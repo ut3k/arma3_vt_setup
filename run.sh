@@ -48,8 +48,9 @@ run_in_docker() {
   local service_name="${2:-presets}" # Ustawienie domyślnej usługi na 'presets'
 
   echo "➡ Uruchamiam przez compose jako UID=$(id -u):$(id -g) w usłudze $service_name"
-  # Używamy zmiennej $DOCKER_COMPOSE_CMD, $service_name i $cmd
-  $DOCKER_COMPOSE_CMD -f "$COMPOSE_FILE" run --rm -it --user "$(id -u):$(id -g)" "$service_name" bash -c "$cmd"
+
+  # ZMIANA: Zastąpienie 'bash -c' przez 'sh -c'
+  $DOCKER_COMPOSE_CMD -f "$COMPOSE_FILE" run --rm -it --user "$(id -u):$(id -g)" "$service_name" sh -c "$cmd"
   return $?
 }
 
