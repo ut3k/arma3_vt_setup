@@ -13,24 +13,32 @@ sort_html_file() {
     return
   fi
 
-  # Backup
   cp "$file" "${file}.backup"
   echo "  💾 Backup zapisany jako: ${file}.backup"
 
-  # 1️⃣ Wyciągnij listę modów z pełnym wierszem <tr> i nazwą
-  local rows
-  rows=$(pup 'div.mod-list tr[data-type="ModContainer"]' <"$file")
-
-  # 2️⃣ Podziel to na osobne rekordy (każdy <tr> w osobnym pliku)
-  # Użyj pup, aby wyciągnąć nazwę moda z DisplayName i sortuj alfabetycznie
+  # Wyciągnięcie wszystkich <tr> w mod-list jako JSON
   local sorted_rows
-  sorted_rows=$(echo "$rows" | pup 'tr json{}' | jq -r '.[] | {
-    name: (.children[]?.children[]? | select(.text != null) | .text)?,
-    html: (.html)
-  } | select(.name != null) | [.name, .html] | @tsv' |
-    sort -f -k1,1 | cut -f2-)
+  sorted_rows=$(pup 'div.mod-list table tr[data-type="ModContainer"] json{}' <"$file" |
+    jq -r '
+      .[] |
+      {
+        name: (
+          [
+            (.children[]? | select(.name=="td") | .children[]? | select(.name=="span" and .attributes["data-type"]=="DisplayName") | .children[]?.text)
+          ] | add
+        ),
+        html: .html
+      }
+      | select(.name != null and .name != "")
+      | [.name, .html] | @tsv
+    ' | sort -f -k1,1 | cut -f2-)
 
-  # 3️⃣ Odbuduj cały plik HTML z posortowaną tabelą
+  if [ -z "$sorted_rows" ]; then
+    echo "  ⚠️  Nie znaleziono żadnych modów — nic do sortowania."
+    return
+  fi
+
+  # Składanie pliku
   local temp_file
   temp_file=$(mktemp)
 
@@ -47,8 +55,7 @@ sort_html_file() {
   ' "$file" >"$temp_file"
 
   mv "$temp_file" "$file"
-
-  echo "  ✅ Gotowe: mody w pliku posortowane alfabetycznie."
+  echo "  ✅ Gotowe: mody posortowane alfabetycznie."
 }
 
 # Logika główna
