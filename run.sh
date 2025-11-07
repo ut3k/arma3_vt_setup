@@ -94,12 +94,6 @@ case "$choice" in
     run_local "scripts/gen_venom.sh"
   fi
   ;;
-3)
-  echo "🔧 Sortuję pliki HTML..."
-  if $HAS_DOCKER; then
-    run_in_docker "scripts/sort_mods.sh"
-  else
-    run_local "scripts/sort_mods.sh"
   fi
   ;;
 0)

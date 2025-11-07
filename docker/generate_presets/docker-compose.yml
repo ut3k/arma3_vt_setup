@@ -6,3 +6,16 @@ services:
       - ../../:/work
     working_dir: /work
     tty: true
+
+  # USŁUGA DLA SORTOWANIA
+  sorter:
+    build:
+      context: .
+      dockerfile: Dockerfile.sorter # Wskazujemy nowy, mały Dockerfile
+    container_name: arma_sorter
+    volumes:
+      - ../../:/work # Musi mieć dostęp do plików HTML i skryptów
+    working_dir: /work
+    # Komenda uruchamiająca skrypt, gdy wywołamy 'docker compose run sorter'
+    command: python3 scripts/sort_mods.py
+    tty: false

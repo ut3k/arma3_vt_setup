@@ -1,0 +1,11 @@
+# Dockerfile.sorter
+FROM python:3.11-alpine
+
+# Instalacja zależności systemowych (wymagane przez lxml)
+RUN apk add --no-cache libxml2-dev libxslt-dev gcc build-base
+
+# Instalacja bibliotek Pythona
+RUN pip install --no-cache-dir beautifulsoup4 lxml
+
+# Sprzątanie - usunięcie narzędzi deweloperskich
+RUN apk del gcc build-base

@@ -13,8 +13,9 @@ RUN echo "📦 Instaluję pakiety systemowe..." && \
       coreutils \
       fzf \
       jq \
+      yq \
       ca-certificates \
-      tar
+      tar 
 
 # --- Etap 2: pobranie PUP z GitHub ---
 WORKDIR /tmp
