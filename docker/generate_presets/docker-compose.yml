@@ -1,0 +1,8 @@
+services:
+  presets:
+    build: .
+    container_name: arma_presets
+    volumes:
+      - ../../:/work
+    working_dir: /work
+    tty: true
