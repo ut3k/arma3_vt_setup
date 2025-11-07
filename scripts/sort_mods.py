@@ -79,7 +79,7 @@ def sort_mod_preset(filepath):
 # ---------- Główna logika skryptu (bez zmian) ----------
 
 SORTED_COUNT = 0
-files_pattern = os.path.join('..', '*.html')
+files_pattern = '*.html'
 files = glob.glob(files_pattern)
 
 print("Rozpoczynam sortowanie list modów w plikach .html w bieżącym katalogu...")
