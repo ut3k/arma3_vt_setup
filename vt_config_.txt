@@ -38,6 +38,7 @@ force force ace_advanced_throwing_enablePickUpAttached = true;
 force force ace_advanced_throwing_enableTempWindInfo = true;
 force force ace_advanced_throwing_showMouseControls = true;
 force force ace_advanced_throwing_showThrowArc = true;
+ace_advanced_throwing_throwStepSetting = 8;
 
 // ACE Advanced Vehicle Damage
 force force ace_vehicle_damage_enableCarDamage = false;
@@ -267,7 +268,7 @@ ace_interact_menu_useListMenuSelf = true;
 
 // ACE Interaction Menu (Self) - More
 ace_interact_menu_more__ACE_CheckAirTemperature = false;
-ace_interact_menu_more__ace_csw_deploy = false;
+ace_interact_menu_more__ace_csw = false;
 ace_interact_menu_more__ACE_Equipment = false;
 ace_interact_menu_more__ACE_Explosives = false;
 ace_interact_menu_more__ace_field_rations = false;
@@ -300,8 +301,10 @@ ace_interact_menu_more__acre_sys_zeus_remoteEars = false;
 ace_interact_menu_more__KAT_Equipment = false;
 ace_interact_menu_more__Medical = false;
 ace_interact_menu_more__SwitchToCamera = false;
+ace_interact_menu_more__vtx_detachHook = false;
 
 // ACE Interaction Menu (Self) - Move to Root
+ace_interact_menu_moveToRoot__ace_csw__ace_csw_placeTripod = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_atragmx_open = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_attach_Attach = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_attach_Detach = false;
@@ -353,6 +356,7 @@ ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches_digEnvelopeBig = false
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches_digEnvelopeSmall = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_tripod_place = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_ui_checkWeaponZeroing = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_wardrobe = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__acre_sys_gsa_placeSpike = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__acre_sys_gsa_placeSpikeMast = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_cutLoweringLine = false;
@@ -360,6 +364,8 @@ ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_lower = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_onBack = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_onChest = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_swap = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__uh60_jvmf_tablet = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__vtx_stretcher_1 = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Cellphone = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Place = false;
 ace_interact_menu_moveToRoot__ace_gestures__ace_gestures_Advance = false;
@@ -566,6 +572,7 @@ force force ace_cargo_enableRename = true;
 force force ace_cargo_loadTimeCoefficient = 5;
 force force ace_cargo_openAfterUnload = 0;
 force force ace_cargo_paradropTimeCoefficent = 2.5;
+force ace_cargo_unloadOnKilled = 0.5;
 force force ace_rearm_distance = 20;
 force force ace_rearm_enabled = true;
 force force ace_rearm_level = 0;
@@ -652,6 +659,7 @@ force force ace_medical_statemachine_fatalInjuriesAI = 0;
 force force ace_medical_statemachine_fatalInjuriesPlayer = 1;
 force ace_medical_useLimbDamage = 1;
 force force ace_medical_vitals_simulateSpO2 = true;
+ace_medical_windowOnWakeUp = 1;
 
 // ACE Medical Interface
 force force ace_medical_feedback_bloodVolumeEffectType = 0;
@@ -844,7 +852,7 @@ force force ace_respawn_removeDeadBodiesDisconnected = true;
 force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
-force force ace_scopes_correctZeroing = true;
+ace_scopes_correctZeroing = false;
 force force ace_scopes_deduceBarometricPressureFromTerrainAltitude = false;
 ace_scopes_defaultZeroRange = 100;
 force force ace_scopes_enabled = true;
@@ -978,6 +986,9 @@ force force acex_volume_lowerInVehicles = false;
 force force acex_volume_reduction = 5;
 force force acex_volume_remindIfLowered = false;
 force force acex_volume_showNotification = true;
+
+// ACE Wardrobe
+ace_wardrobe_enableAction = true;
 
 // ACE Weapons
 force force ace_common_persistentLaserEnabled = false;
@@ -1225,6 +1236,8 @@ diwako_dui_linecompass_DefaultIconColor = [0.5,0.87,0.5,1];
 diwako_dui_linecompass_DrawBearing = 2;
 diwako_dui_linecompass_Enabled = true;
 diwako_dui_linecompass_enableOcclusion = false;
+// jakieś nowe WAYPOINT
+diwako_dui_linecompass_enableShowCustomWP = true;
 diwako_dui_linecompass_IconOutline = 0;
 diwako_dui_linecompass_occlusionFadeSpeed = 3.5;
 diwako_dui_linecompass_showSpeaking = true;
@@ -1356,6 +1369,18 @@ force force emr_main_preventHighVaulting = false;
 force force emr_main_staminaCoefficient = 1;
 force force emr_main_whitelistStr = "";
 force force emr_main_yeetCoefficient = 1.4;
+
+// Hatchet Vehicle Framework
+hct_interaction_autoclose_actionmenu = false;
+hct_interaction_cursorColor = [0.95,0.95,0.95,1];
+hct_interaction_cursorText = "×";
+hct_interaction_pointing = true;
+hct_interaction_showDebugMessages = false;
+hct_interaction_showLabels = 2;
+hct_interaction_trackIR_interaction_cursor = false;
+hct_interaction_trackIR_interaction_cursor_invert = false;
+hct_interaction_trackIR_interaction_cursorSensitivity = 2.5;
+hct_interaction_updateEvery = 5;
 
 // Hide Among The Grass
 force force hatg_setting_building = true;
@@ -1799,22 +1824,34 @@ force PD_TUNNEL_FADE = 1.15;
 force PD_TUNNEL_ONSET = 0.05;
 force PD_VISUAL_MODE = 1;
 
-// USAF
-force force usaf_afterburner_setting_allow_ai = true;
-force force USAF_allowNuke = true;
-force force usaf_debug_setting_enabled_clients = false;
-force force usaf_debug_setting_enabled_server = false;
-force force usaf_serviceMenu_setting_allowHangarRearm = true;
-force force usaf_serviceMenu_setting_allowHangarRefuel = true;
-force force usaf_serviceMenu_setting_allowHangarRepair = true;
-force force usaf_serviceMenu_setting_allowLoadoutModification = true;
-force force usaf_serviceMenu_setting_enabled = true;
-force force usaf_serviceMenu_setting_refuelTime = "100";
-force force usaf_serviceMenu_setting_reloadTime = "2";
-force force usaf_serviceMenu_setting_repairTime = "100";
-force force usaf_serviceMenu_setting_replaceSources = false;
-force force usaf_serviceMenu_setting_selectorSearchRadius = "15";
-force force usaf_setting_allow_aiFormlights = true;
+// UH-60M
+force vtx_ace_viv_loadDistance = 15;
+force vtx_ace_viv_timeFactor = 1;
+vtx_uh60_anvishud_defaultMode = -1;
+vtx_uh60_anvishud_settingBrightness = 0.6;
+vtx_uh60_anvishud_settingColor = [0.082,0.608,0.039];
+vtx_uh60_flir_setting_AimSlewBlockMouse = true;
+vtx_uh60_flir_setting_AimSlewSpeed = 1;
+vtx_uh60_flir_setting_AimXFactor = 1;
+force vtx_uh60_flir_setting_animateTurret = true;
+vtx_uh60_flir_setting_KeySlewSpeed = 1;
+vtx_uh60_flir_setting_KeyXFactor = 1;
+force vtx_uh60_flir_setting_syncDelay = 0.015;
+vtx_uh60_hoist_setting_useAttachScript = false;
+vtx_uh60_jvmf_defaults = true;
+vtx_uh60_sfmPlus_showDamageHints = true;
+vtx_uh60_sfmPlusStabilatorEnabled = 1;
+vtx_uh60_ui_showDebugMessages = false;
+vtx_uh60m_enabled_aar = true;
+vtx_uh60m_enabled_cas = true;
+vtx_uh60m_enabled_engine = true;
+vtx_uh60m_enabled_fd = true;
+vtx_uh60m_enabled_flir = true;
+vtx_uh60m_enabled_fms = true;
+vtx_uh60m_enabled_jvmf = true;
+vtx_uh60m_enabled_mfd = true;
+vtx_uh60m_simpleCollective = false;
+vtx_uh60m_simpleStartup = false;
 
 // Zeus Additions
 zeus_additions_main_AABLU_mags = "[""rhs_fim92_mag"",""Titan_AA""]";
@@ -1976,7 +2013,6 @@ zen_faction_filter_1_rhsgref_faction_cdf_ground_b = true;
 zen_faction_filter_1_rhsgref_faction_cdf_ground_b_groups = true;
 zen_faction_filter_1_rhsgref_faction_cdf_ng_b = true;
 zen_faction_filter_1_rhsgref_faction_hidf = true;
-force force zen_faction_filter_1_USAF = true;
 force force zen_faction_filter_2_IND_C_F = true;
 force force zen_faction_filter_2_IND_E_F = true;
 force force zen_faction_filter_2_IND_F = true;
@@ -2009,6 +2045,7 @@ zen_faction_filter_2_rhsgref_faction_un = true;
 force force zen_faction_filter_3_CIV_F = true;
 force force zen_faction_filter_3_CIV_IDAP_F = true;
 force force zen_faction_filter_3_EdCat_jbad_vehicles = true;
+zen_faction_filter_3_EdCat_Things = true;
 force force zen_faction_filter_3_IND_L_F = true;
 zen_faction_filter_3_LOP_AFR_Civ = true;
 zen_faction_filter_3_LOP_CHR_Civ = true;
