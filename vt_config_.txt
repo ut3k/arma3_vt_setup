@@ -852,9 +852,9 @@ force force ace_respawn_removeDeadBodiesDisconnected = true;
 force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
-force ace_scopes_correctZeroing = false;
+ace_scopes_correctZeroing = false;
 force force ace_scopes_deduceBarometricPressureFromTerrainAltitude = false;
-force ace_scopes_defaultZeroRange = 100;
+ace_scopes_defaultZeroRange = 100;
 force force ace_scopes_enabled = true;
 force force ace_scopes_forceUseOfAdjustmentTurrets = false;
 force force ace_scopes_inScopeAdjustment = false;
