@@ -22,8 +22,7 @@ jobs:
         run: scripts/process_presets.sh .
 
       - name: Run Prettier
-        run: |
-          npx prettier --write "tmp/*.html"
+        run: npx prettier --write "tmp/*.html" --parser html
 
       - name: List Files
         run: ls -la tmp/
