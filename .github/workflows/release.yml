@@ -9,21 +9,25 @@ jobs:
     name: Build Presets
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Wymagane do tworzenia release
+      contents: write # Wymagane do tworzenia release
     steps:
       - uses: actions/checkout@v4
         name: Checkout GITHUB code
-        
+
       - name: Pobranie numeru wersji z taga
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-        
+
       - name: Process HTML
         run: scripts/process_presets.sh .
-        
+
+      - name: Run Prettier
+        run: |
+          npx prettier --write "tmp/*.html"
+
       - name: List Files
         run: ls -la tmp/
-        
+
       - name: Create Release and Upload HTML Files
         uses: softprops/action-gh-release@v1
         with:
