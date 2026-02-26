@@ -656,7 +656,7 @@ force force ace_medical_statemachine_AIUnconsciousness = false;
 force force ace_medical_statemachine_cardiacArrestBleedoutEnabled = true;
 force force ace_medical_statemachine_cardiacArrestTime = 480;
 force force ace_medical_statemachine_fatalInjuriesAI = 0;
-force force ace_medical_statemachine_fatalInjuriesPlayer = 1;
+force force ace_medical_statemachine_fatalInjuriesPlayer = 0;
 force ace_medical_useLimbDamage = 1;
 force force ace_medical_vitals_simulateSpO2 = true;
 ace_medical_windowOnWakeUp = 1;
@@ -852,9 +852,9 @@ force force ace_respawn_removeDeadBodiesDisconnected = true;
 force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
-ace_scopes_correctZeroing = false;
+force ace_scopes_correctZeroing = false;
 force force ace_scopes_deduceBarometricPressureFromTerrainAltitude = false;
-ace_scopes_defaultZeroRange = 100;
+force ace_scopes_defaultZeroRange = 100;
 force force ace_scopes_enabled = true;
 force force ace_scopes_forceUseOfAdjustmentTurrets = false;
 force force ace_scopes_inScopeAdjustment = false;
@@ -1236,7 +1236,6 @@ diwako_dui_linecompass_DefaultIconColor = [0.5,0.87,0.5,1];
 diwako_dui_linecompass_DrawBearing = 2;
 diwako_dui_linecompass_Enabled = true;
 diwako_dui_linecompass_enableOcclusion = false;
-// jakieś nowe WAYPOINT
 diwako_dui_linecompass_enableShowCustomWP = true;
 diwako_dui_linecompass_IconOutline = 0;
 diwako_dui_linecompass_occlusionFadeSpeed = 3.5;
@@ -1373,7 +1372,7 @@ force force emr_main_yeetCoefficient = 1.4;
 // Hatchet Vehicle Framework
 hct_interaction_autoclose_actionmenu = false;
 hct_interaction_cursorColor = [0.95,0.95,0.95,1];
-hct_interaction_cursorText = "×";
+hct_interaction_cursorText = "Ă—";
 hct_interaction_pointing = true;
 hct_interaction_showDebugMessages = false;
 hct_interaction_showLabels = 2;
@@ -1447,7 +1446,7 @@ force kat_airway_RecoveryPosition_TimeToDrain = 10;
 force kat_airway_ReusableAirwayItems = false;
 force kat_airway_string_exit = "";
 force kat_airway_Suction_reuse = false;
-force kat_airway_Suction_time = 7.65;
+force kat_airway_Suction_time = 12;
 
 // KAT - ADV Medical: Breathing
 force kat_breathing_advPtxChance = 5;
@@ -1510,7 +1509,7 @@ force kat_breathing_TensionHemothoraxAlwaysVisible = false;
 // KAT - ADV Medical: Chemical
 force kat_chemical_availGasmask = "'G_AirPurifyingRespirator_01_F', 'kat_mask_M50', 'kat_mask_M04'";
 force kat_chemical_gasmask_durability = 900;
-kat_chemical_gasMaskSoundVolume = 1;
+kat_chemical_gasMaskSoundVolume = 0.6;
 force kat_chemical_infectionTime = 60;
 force kat_chemical_maskStaminaLoss = false;
 force kat_chemical_showPoisoning = true;
@@ -1518,7 +1517,7 @@ force kat_chemical_tearGasDropChance = 0;
 
 // KAT - ADV Medical: Circulation
 force kat_circulation_abgEnable = false;
-force force kat_circulation_AdvRhythm = false;
+force force kat_circulation_AdvRhythm = true;
 force kat_circulation_AdvRhythm_AED_ROSC_Chance = 50;
 force kat_circulation_AdvRhythm_asystoleBloodlossThreshold = 3.6;
 force kat_circulation_AdvRhythm_canDeteriorate = true;
@@ -1529,9 +1528,9 @@ force kat_circulation_AdvRhythm_deteriorateTimeWeight = 180;
 force kat_circulation_AdvRhythm_Hardcore_Enable = false;
 force kat_circulation_AdvRhythm_hardcoreDeteriorationChance = 10;
 force kat_circulation_AdvRhythm_HTHold = false;
-force kat_circulation_AdvRhythm_PEAChance = 50;
-force kat_circulation_AdvRhythm_PEAEnabled = false;
-force kat_circulation_AdvRhythm_VTChance = 50;
+force kat_circulation_AdvRhythm_PEAChance = 15.3319;
+force kat_circulation_AdvRhythm_PEAEnabled = true;
+force kat_circulation_AdvRhythm_VTChance = 29.9874;
 force kat_circulation_AED_duringCpr = true;
 force kat_circulation_AED_MaxChance = 80;
 force kat_circulation_AED_MinChance = 45;
