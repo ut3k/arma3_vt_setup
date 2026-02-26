@@ -280,6 +280,7 @@ ace_interact_menu_more__ACE_MapGpsHide = false;
 ace_interact_menu_more__ACE_MapGpsShow = false;
 ace_interact_menu_more__ACE_MapTools = false;
 ace_interact_menu_more__ACE_Medical = false;
+ace_interact_menu_more__ace_medical_ai_heal = false;
 ace_interact_menu_more__ACE_Medical_Menu = false;
 ace_interact_menu_more__ACE_MoveRallypoint = false;
 ace_interact_menu_more__ACE_PlottingBoard = false;
@@ -852,9 +853,9 @@ force force ace_respawn_removeDeadBodiesDisconnected = true;
 force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
-ace_scopes_correctZeroing = false;
+force ace_scopes_correctZeroing = false;
 force force ace_scopes_deduceBarometricPressureFromTerrainAltitude = false;
-ace_scopes_defaultZeroRange = 100;
+force ace_scopes_defaultZeroRange = 100;
 force force ace_scopes_enabled = true;
 force force ace_scopes_forceUseOfAdjustmentTurrets = false;
 force force ace_scopes_inScopeAdjustment = false;
@@ -890,7 +891,7 @@ force force ace_trenches_smallEnvelopeDigDuration = 20;
 force force ace_trenches_smallEnvelopeRemoveDuration = 12;
 
 // ACE Uncategorized
-force force ace_fastroping_autoAddFRIES = false;
+force force ace_fastroping_autoAddFRIES = true;
 force force ace_fastroping_requireRopeItems = false;
 ace_flags_enableCarrying = true;
 ace_flags_enablePlacing = true;
@@ -1236,7 +1237,6 @@ diwako_dui_linecompass_DefaultIconColor = [0.5,0.87,0.5,1];
 diwako_dui_linecompass_DrawBearing = 2;
 diwako_dui_linecompass_Enabled = true;
 diwako_dui_linecompass_enableOcclusion = false;
-// jakieś nowe WAYPOINT
 diwako_dui_linecompass_enableShowCustomWP = true;
 diwako_dui_linecompass_IconOutline = 0;
 diwako_dui_linecompass_occlusionFadeSpeed = 3.5;
