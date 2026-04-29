@@ -343,6 +343,7 @@ ace_interact_menu_moveToRoot__ACE_Equipment__ace_overheating_UnJam = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ACE_PutInEarplugs = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ACE_PutOnEHP = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_rangecard_open = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_rangecard_open__ace_rangecard_deleteCopy = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_rangecard_open__ace_rangecard_makeCopy = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_rangecard_open__ace_rangecard_openCopy = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_reload_checkAmmo = false;
@@ -352,8 +353,13 @@ ace_interact_menu_moveToRoot__ACE_Equipment__ace_scopes_adjustZero = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_scopes_resetZero = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_spottingscope_place = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ACE_TacticalLadders = false;
-ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches_digEnvelopeBig = false;
-ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches_digEnvelopeSmall = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__ace_trenches_digEnvelopeBig = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__ace_trenches_digEnvelopeSmall = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__grad_trenches_digEnvelopeGiant = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__grad_trenches_digEnvelopeLongNameEmplacment = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__grad_trenches_digEnvelopeShort = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__ace_trenches__grad_trenches_digEnvelopeVehicle = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_tripod_place = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_ui_checkWeaponZeroing = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__ace_wardrobe = false;
@@ -603,6 +609,7 @@ force force ace_map_mapLimitZoom = false;
 force force ace_map_mapShake = true;
 force force ace_map_mapShowCursorCoordinates = true;
 force force ace_markers_moveRestriction = 0;
+ace_markers_quickNumberMarks = 2;
 force force ace_markers_timestampEnabled = true;
 force force ace_markers_timestampFormat = "HH:MM";
 force force ace_markers_timestampHourFormat = 24;
@@ -618,7 +625,7 @@ force force ace_map_gestures_defaultColor = [1,0.88,0,0.7];
 force force ace_map_gestures_defaultLeadColor = [1,0.88,0,0.95];
 force force ace_map_gestures_enabled = true;
 force force ace_map_gestures_interval = 0.03;
-force force ace_map_gestures_maxRange = 7;
+force force ace_map_gestures_maxRange = 20;
 force force ace_map_gestures_maxRangeCamera = 14;
 force force ace_map_gestures_nameTextColor = [0.2,0.2,0.2,0.3];
 force force ace_map_gestures_onlyShowFriendlys = false;
@@ -710,15 +717,15 @@ force force ace_medical_treatment_allowLitterCreation = true;
 force force ace_medical_treatment_allowSelfIV = 1;
 force force ace_medical_treatment_allowSelfPAK = 0;
 force force ace_medical_treatment_allowSelfStitch = 1;
-force force ace_medical_treatment_allowSharedEquipment = 0;
+force force ace_medical_treatment_allowSharedEquipment = 3;
 force force ace_medical_treatment_bandageEffectiveness = 1;
 force force ace_medical_treatment_bandageRollover = true;
 force force ace_medical_treatment_clearTrauma = 1;
 force force ace_medical_treatment_consumePAK = 1;
 force force ace_medical_treatment_consumeSurgicalKit = 2;
 force force ace_medical_treatment_convertItems = 0;
-force force ace_medical_treatment_cprSuccessChanceMax = 0.6;
-force force ace_medical_treatment_cprSuccessChanceMin = 0.4;
+force force ace_medical_treatment_cprSuccessChanceMax = 0.9;
+force force ace_medical_treatment_cprSuccessChanceMin = 0.65;
 force force ace_medical_treatment_graveDiggingMarker = true;
 force force ace_medical_treatment_holsterRequired = 0;
 force force ace_medical_treatment_litterCleanupDelay = 600;
@@ -774,7 +781,7 @@ force force ace_nametags_showVehicleCrewInfo = true;
 force force ace_nametags_tagSize = 3;
 
 // ACE Nightvision
-force force ace_nightvision_aimDownSightsBlur = 1;
+force force ace_nightvision_aimDownSightsBlur = 0.284091;
 force force ace_nightvision_disableNVGsWithSights = false;
 force force ace_nightvision_effectScaling = 0.6;
 force force ace_nightvision_fogScaling = 0.6;
@@ -782,27 +789,27 @@ force force ace_nightvision_noiseScaling = 0.2;
 force force ace_nightvision_shutterEffects = true;
 
 // ACE Overheating
-force force ace_overheating_cookoffCoef = 1;
-force force ace_overheating_coolingCoef = 1;
+force force ace_overheating_cookoffCoef = 5;
+force force ace_overheating_coolingCoef = 2;
 force force ace_overheating_displayTextOnJam = true;
 force force ace_overheating_enabled = true;
-force force ace_overheating_heatCoef = 1;
-force force ace_overheating_jamChanceCoef = 1;
+force force ace_overheating_heatCoef = 0.75;
+force force ace_overheating_jamChanceCoef = 2;
 force force ace_overheating_overheatingDispersion = true;
 force force ace_overheating_overheatingRateOfFire = true;
 force force ace_overheating_particleEffectsAndDispersionDistance = 3000;
 force force ace_overheating_showParticleEffects = true;
 force force ace_overheating_showParticleEffectsForEveryone = false;
-force force ace_overheating_suppressorCoef = 1;
-force force ace_overheating_unJamFailChance = 0.1;
+force force ace_overheating_suppressorCoef = 0.75;
+force force ace_overheating_unJamFailChance = 0;
 force force ace_overheating_unJamOnreload = false;
 force force ace_overheating_unJamOnSwapBarrel = false;
 
 // ACE Pointing
 force force ace_finger_enabled = true;
-force force ace_finger_indicatorColor = [0.83,0.68,0.21,0.75];
+force force ace_finger_indicatorColor = [1,0,0,1];
 force force ace_finger_indicatorForSelf = true;
-force force ace_finger_maxRange = 4;
+force force ace_finger_maxRange = 15;
 force force ace_finger_proximityScaling = false;
 force force ace_finger_sizeCoef = 0.7;
 
@@ -852,7 +859,7 @@ force force ace_respawn_removeDeadBodiesDisconnected = true;
 force force ace_respawn_savePreDeathGear = true;
 
 // ACE Scopes
-ace_scopes_correctZeroing = false;
+force ace_scopes_correctZeroing = false;
 force force ace_scopes_deduceBarometricPressureFromTerrainAltitude = false;
 ace_scopes_defaultZeroRange = 100;
 force force ace_scopes_enabled = true;
@@ -1071,6 +1078,9 @@ force force acre_sys_zeus_zeusDefaultVoiceSource = false;
 force force bocr_main_disabled = false;
 force force bocr_main_walk = true;
 
+// BettIR
+BettIR_ViewDistance = 300;
+
 // Community Base Addons
 cba_diagnostic_ConsoleIndentType = -1;
 force force cba_diagnostic_watchInfoRefreshRate = 0.2;
@@ -1259,6 +1269,8 @@ force force diwako_dui_main_trackingColor = [0.93,0.26,0.93,1];
 force force diwako_dui_reset_ui_pos = false;
 
 // DUI - Squad Radar - Nametags
+diwako_dui_nametags_customInfoColor = [1,1,1,1];
+diwako_dui_nametags_customInfoShadow = 1;
 force force diwako_dui_nametags_customRankStyle = "[[""PRIVATE"",""CORPORAL"",""SERGEANT"",""LIEUTENANT"",""CAPTAIN"",""MAJOR"",""COLONEL""],[""Pvt."",""Cpl."",""Sgt."",""Lt."",""Capt."",""Maj."",""Col.""]]";
 force force diwako_dui_nametags_deadColor = [0.2,0.2,0.2,1];
 force force diwako_dui_nametags_deadRenderDistance = 3.5;
@@ -1268,6 +1280,8 @@ force force diwako_dui_nametags_enableFOVBoost = true;
 force force diwako_dui_nametags_enableOcclusion = true;
 force force diwako_dui_nametags_fadeInTime = 0.05;
 force force diwako_dui_nametags_fadeOutTime = 0.5;
+diwako_dui_nametags_fontCustomInfo = "RobotoCondensedLight";
+diwako_dui_nametags_fontCustomInfoSize = 7;
 force force diwako_dui_nametags_fontGroup = "RobotoCondensedLight";
 force force diwako_dui_nametags_fontGroupNameSize = 8;
 force force diwako_dui_nametags_fontName = "RobotoCondensedBold";
@@ -1369,10 +1383,90 @@ force force emr_main_staminaCoefficient = 1;
 force force emr_main_whitelistStr = "";
 force force emr_main_yeetCoefficient = 1.4;
 
+// Fire support PLUS
+force FSPLUS_105mmTrainingShell = true;
+force FSPLUS_122Rocket = true;
+force FSPLUS_122RocketBarrage = true;
+force FSPLUS_155Barrage = true;
+force FSPLUS_230HE = true;
+force FSPLUS_230HEBarrage = true;
+force FSPLUS_230mmAP = true;
+force FSPLUS_230mmFletchette = true;
+force FSPLUS_230mmHeatSeeking = true;
+force FSPLUS_230mmMine = true;
+force FSPLUS_230mmTrainingRocket = true;
+force FSPLUS_82mmTrainingShell = true;
+force FSPLUS_82MortarBarrage = true;
+force FSPLUS_Big_Nuke = true;
+force FSPLUS_CruiseMissile = true;
+force FSPLUS_Fireworks = true;
+force FSPLUS_JDAM = true;
+force FSPLUS_Napalm = true;
+force FSPLUS_Not230mmBarrage = true;
+force FSPLUS_RodsfromGod = true;
+force FSPLUS_Smoke_white = true;
+
+// Fire support PLUS (Freestyle's Nuclear Blast)
+force FSNB_AllowWeapons = true;
+force FSNB_BlastWave = true;
+force FSNB_CondensationRing = true;
+force FSNB_Crater = true;
+force FSNB_Debug = false;
+force FSNB_DirectRad = true;
+force FSNB_DustWave = true;
+force FSNB_Fireball = true;
+force FSNB_Fires = 0.1;
+force FSNB_LingerSmoke = true;
+force FSNB_MushroomCloud = true;
+force FSNB_SmokeSpike = true;
+force FSNB_Sound = true;
+force FSNB_StaticRad = -1;
+
+// GRAD Trenches
+force grad_trenches_functions_allowBigEnvelope = true;
+force grad_trenches_functions_allowCamouflage = true;
+force grad_trenches_functions_allowDigging = true;
+force grad_trenches_functions_allowEffects = true;
+force grad_trenches_functions_allowGiantEnvelope = true;
+force grad_trenches_functions_allowHitDecay = false;
+force grad_trenches_functions_allowLongEnvelope = true;
+force grad_trenches_functions_allowShortEnvelope = true;
+force grad_trenches_functions_allowSmallEnvelope = true;
+force grad_trenches_functions_allowTextureLock = true;
+force grad_trenches_functions_allowTrenchDecay = false;
+force grad_trenches_functions_allowVehicleEnvelope = true;
+force grad_trenches_functions_bigEnvelopeDamageMultiplier = 2.495;
+force grad_trenches_functions_bigEnvelopeDigTime = 30;
+force grad_trenches_functions_bigEnvelopeRemovalTime = -1;
+force grad_trenches_functions_buildFatigueFactor = 1;
+force grad_trenches_functions_camouflageRequireEntrenchmentTool = true;
+force grad_trenches_functions_createTrenchMarker = false;
+force grad_trenches_functions_decayTime = 1800;
+force grad_trenches_functions_giantEnvelopeDamageMultiplier = 2.485;
+force grad_trenches_functions_giantEnvelopeDigTime = 40;
+force grad_trenches_functions_giantEnvelopeRemovalTime = -1;
+force grad_trenches_functions_hitDecayMultiplier = 1;
+force grad_trenches_functions_LongEnvelopeDigTime = 100;
+force grad_trenches_functions_LongEnvelopeRemovalTime = -1;
+force grad_trenches_functions_playersInAreaRadius = 0;
+force grad_trenches_functions_shortEnvelopeDamageMultiplier = 2.495;
+force grad_trenches_functions_shortEnvelopeDigTime = 15;
+force grad_trenches_functions_shortEnvelopeRemovalTime = -1;
+force grad_trenches_functions_smallEnvelopeDamageMultiplier = 3;
+force grad_trenches_functions_smallEnvelopeDigTime = 20;
+force grad_trenches_functions_smallEnvelopeRemovalTime = -1;
+force grad_trenches_functions_stopBuildingAtFatigueMax = true;
+force grad_trenches_functions_textureLockDistance = 5;
+force grad_trenches_functions_timeoutToDecay = 7200;
+force grad_trenches_functions_vehicleEnvelopeDamageMultiplier = 2.485;
+force grad_trenches_functions_vehicleEnvelopeDigTime = 45;
+force grad_trenches_functions_vehicleEnvelopeRemovalTime = -1;
+force grad_trenches_functions_vehicleTrenchBuildSpeed = 5;
+
 // Hatchet Vehicle Framework
 hct_interaction_autoclose_actionmenu = false;
 hct_interaction_cursorColor = [0.95,0.95,0.95,1];
-hct_interaction_cursorText = "x";
+hct_interaction_cursorText = "×";
 hct_interaction_pointing = true;
 hct_interaction_showDebugMessages = false;
 hct_interaction_showLabels = 2;
@@ -1823,6 +1917,22 @@ force PD_TUNNEL_FADE = 1.15;
 force PD_TUNNEL_ONSET = 0.05;
 force PD_VISUAL_MODE = 1;
 
+// Tactical Position Ready Options
+force Animation for automatic wall avoidance = 0;
+force Change the position recovery from left click to right click. = false;
+force Enable automatic wall avoidance. = false;
+force In Ready state, place your hand on an ally's shoulder. = false;
+force Lookahead for corner detection (in m) = "0.0";
+force Shoulder Ready Angle = "0";
+force Shoulder Ready Distance (in m) = "0";
+
+// Tacview Recorder
+TVR_debugOutput = false;
+TVR_debugStatsPeriod = 60;
+TVR_outputPath = "C:\";
+TVR_projectileRecordingEnabled = false;
+TVR_remoteExec = true;
+
 // UH-60M
 force vtx_ace_viv_loadDistance = 15;
 force vtx_ace_viv_timeFactor = 1;
@@ -1961,6 +2071,7 @@ force force zen_attributes_enableWaypointTimeout = true;
 force force zen_attributes_enableWaypointType = true;
 
 // Zeus Enhanced - Faction Filter
+zen_faction_filter_0_EMP_Greystone_PMC_OPFOR = true;
 zen_faction_filter_0_LOP_AFR_OPF = true;
 zen_faction_filter_0_LOP_AM_OPF = true;
 zen_faction_filter_0_LOP_BH = true;
@@ -1995,6 +2106,7 @@ force force zen_faction_filter_1_BLU_G_F = true;
 force force zen_faction_filter_1_BLU_GEN_F = true;
 force force zen_faction_filter_1_BLU_T_F = true;
 force force zen_faction_filter_1_BLU_W_F = true;
+zen_faction_filter_1_EMP_Greystone_PMC = true;
 zen_faction_filter_1_LOP_AA = true;
 zen_faction_filter_1_LOP_CDF = true;
 zen_faction_filter_1_LOP_GRE = true;
@@ -2043,7 +2155,6 @@ zen_faction_filter_2_rhsgref_faction_tla_g = true;
 zen_faction_filter_2_rhsgref_faction_un = true;
 force force zen_faction_filter_3_CIV_F = true;
 force force zen_faction_filter_3_CIV_IDAP_F = true;
-force force zen_faction_filter_3_EdCat_jbad_vehicles = true;
 zen_faction_filter_3_EdCat_Things = true;
 force force zen_faction_filter_3_IND_L_F = true;
 zen_faction_filter_3_LOP_AFR_Civ = true;
