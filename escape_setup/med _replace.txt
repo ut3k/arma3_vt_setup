@@ -1,0 +1,43 @@
+if (isServer) then {
+    addMissionEventHandler ["EachFrame", {
+        {
+            // Sprawdzamy czy jednostka jeszcze nie ma aktywnego konwertera
+            if (isNil {_x getVariable "konwerter_aktywny"}) then {
+                
+                _x addEventHandler ["Take", {
+                    params ["_unit", "_container", "_item"];
+                    
+                    // --- KONWERSJA FIRST AID KIT ---
+                    if (_item == "FirstAidKit") then {
+                        _unit removeItem "FirstAidKit";
+                        
+                        // 3 do 4 bandaży (idealnie równa szansa)
+                        _countBandages = 3 + floor random (4 - 3 + 1);
+                        for "_i" from 1 to _countBandages do { _unit addItem "ACE_fieldDressing"; };
+                        
+                        // 50% szans na morfinę
+                        if (random 100 <= 50) then { _unit addItem "ACE_morphine"; };
+                        
+                        // 50% szans na epinefrynę
+                        if (random 100 <= 50) then { _unit addItem "ACE_epinephrine"; };
+                        
+                        // Zawsze dodaj 1 stazę
+                        _unit addItem "ACE_tourniquet";
+                    };
+                    
+                    // --- KONWERSJA MEDIKIT ---
+                    if (_item == "Medikit") then {
+                        _unit removeItem "Medikit";
+                        
+                        // 30% szans na worek krwi 500ml
+                        if (random 100 <= 30) then { _unit addItem "ACE_bloodIV_500"; };
+                        
+                    };
+                }];
+                
+                // Oznaczamy jednostkę, żeby nie dodawać EventHandlera wielokrotnie
+                _x setVariable ["konwerter_aktywny", true];
+            };
+        } forEach allUnits;
+    }];
+};
