@@ -1290,12 +1290,12 @@ SFSM_rpgHouse = true;
 
 // DCO soldier FSM | Evasion Attack
 SFSM_allowEvasionAttack = true;
-SFSM_EA_feintPushLeft = true;
-SFSM_EA_feintPushRight = true;
+SFSM_EA_feintPushLeft = false;
+SFSM_EA_feintPushRight = false;
 SFSM_EA_flankLeft = true;
 SFSM_EA_flankRight = true;
-SFSM_EA_ZigZag = true;
-force SFSM_evasionAttackCoolDown = 10;
+SFSM_EA_ZigZag = false;
+force SFSM_evasionAttackCoolDown = 5;
 force SFSM_evasionAttackSpeed = 1.2;
 
 // DCO soldier FSM | Fighting Positions (FIPO)
