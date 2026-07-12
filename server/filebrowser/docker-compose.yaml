@@ -1,0 +1,27 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:v2-s6
+    container_name: filebrowser
+    restart: unless-stopped
+
+    ports:
+      - "8088:80"
+
+    environment:
+      PUID: 1000
+      PGID: 1000
+
+    volumes:
+      # Istniejący wolumen, do którego chcesz wgrywać pliki
+      - a3_missions:/srv
+
+      # Konfiguracja i baza użytkowników File Browser
+      - filebrowser_database:/database
+      - filebrowser_config:/config
+
+volumes:
+  a3_missions:
+    external: true
+
+  filebrowser_database:
+  filebrowser_config:
