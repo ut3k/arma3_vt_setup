@@ -26,4 +26,6 @@ volumes:
     external: true
 
   filebrowser_database:
+    name: filebrowser_database
   filebrowser_config:
+    name: filebrowser_config
