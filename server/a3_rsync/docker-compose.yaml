@@ -13,7 +13,7 @@ services:
       - "8873:8873"
     volumes:
       # Klucze SSH
-      - /home/debian/klucze:/root/.ssh
+      #- /home/debian/klucze:/root/.ssh
       # Konfiguracja
       - arma3_armada_config:/data/armada/config
       - arma3_phantom_venom_config:/data/phantom_venom/config
