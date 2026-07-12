@@ -21,7 +21,7 @@ RUN mkdir -p /data
 # Konfiguracja SSH - pozwolenie na logowanie root i użytkownika
 RUN echo "Port 8873" >> /etc/ssh/sshd_config && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
-    echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config && \
+    echo "PasswordAuthentication no" >> /etc/ssh/sshd_config && \
     echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
 
 # Tworzenie katalogu .ssh dla root
