@@ -1,0 +1,291 @@
+services:
+  arma3:
+    image: ghcr.io/brettmayson/arma3server/arma3server:latest
+    platform: linux/amd64
+    container_name: a3_armada
+    ports:
+      - "2302:2302/udp"
+      - "2303:2303/udp"
+      - "2304:2304/udp"
+      - "2305:2305/udp"
+      - "2306:2306/udp"
+    labels:
+      - "portical.upnp.forward=published"
+    restart: unless-stopped
+
+    volumes:
+      # Config Armada
+      - arma3_armada_config:/arma3/configs
+
+      # elementy wspolne
+      - a3_server:/arma3
+      - a3_missions:/arma3/mpmissions
+
+      # === DLC ===
+      - a3_addons:/arma3/addons
+      - a3_argo:/arma3/argo
+      - a3_enoch:/arma3/enoch
+      - a3_expansion:/arma3/expansion
+      - a3_heli:/arma3/heli
+      - a3_jets:/arma3/jets
+      - a3_orange:/arma3/orange
+
+      # mody
+      - "3den_enchanced:/arma3/servermods/@3den enhanced"
+      - "a3_thermal_impro:/arma3/servermods/@a3 thermal improvement"
+      - "ace:/arma3/servermods/@ace"
+      - "ace_armor_adjuster:/arma3/servermods/@ace armor adjuster"
+      - "ace_ars_ext_core:/arma3/servermods/@ace3 arsenal extended - core"
+      - "ace_ars_ext_rhs:/arma3/servermods/@ace3 arsenal extended - rhs all-in-one"
+      - "ace_ars_ext_vanil:/arma3/servermods/@ace3 arsenal extended - vanilla (and ace)"
+      - "acre2:/arma3/servermods/@acre2"
+      - "backpackonchest:/arma3/servermods/@backpackonchest - redux"
+      - "betterinventory:/arma3/servermods/@better inventory"
+      - "bettir_nvg:/arma3/servermods/@bettir nvg"
+      - "blastcore:/arma3/servermods/@blastcore edited (standalone version)"
+      - "bw_mod:/arma3/servermods/@bwmod"
+      - "cba_a3:/arma3/servermods/@cba_a3"
+      - "ch_view_distance:/arma3/servermods/@ch view distance"
+      - "chemical_warfare_plus:/arma3/servermods/@chemical warfare plus"
+      - "colombia:/arma3/servermods/@umb colombia"
+      - "ctab_devastator:/arma3/servermods/@ctab devastator edition"
+      - "cup_terrains_cwa:/arma3/servermods/@cup terrains - cwa"
+      - "cup_terrains_map:/arma3/servermods/@cup terrains - maps"
+      - "cup_terrians_core:/arma3/servermods/@cup terrains - core"
+      - "dco_soldier:/arma3/servermods/@dco soldier fsm"
+      - "dco_unit_scanner:/arma3/servermods/@dco unitscanner"
+      - "dui_sqd_radar:/arma3/servermods/@dui - squad radar"
+      - "enchenced_movment:/arma3/servermods/@enhanced movement"
+      - "enchenced_movment_rework:/arma3/servermods/@enhanced movement rework"
+      - "fir_aws:/arma3/servermods/@fir aws(airweaponsystem)"
+      - "fir_f16:/arma3/mods/@f-16 fighting falcon"
+      - "fire_support:/arma3/servermods/@fire support plus"
+      - "grad_civ:/arma3/servermods/@grad civilians"
+      - "gruppe_adler_trenches:/arma3/servermods/@gruppe adler trenches"
+      - "immerse:/arma3/servermods/@immerse"
+      - "katmed:/arma3/servermods/@kat - advanced medical"
+      - "kt_weapon_pack:/arma3/servermods/@kt weapon pack"
+      - "kunduz_river_map:/arma3/mods/@kunduz river"
+      - "ladder_tweak_remaster:/arma3/servermods/@ladder tweak remastered"
+      - "maptools:/arma3/servermods/@maptools remastered"
+      - "mrb_air:/arma3/servermods/@mrb air visibility"
+      - "mrb_sea:/arma3/servermods/@mrb sea vessel visibility"
+      - "mrb_vechicle:/arma3/servermods/@mrb vehicle visibility"
+      - "project_opfor:/arma3/servermods/@project opfor"
+      - "real_engine_enhanced:/arma3/servermods/@real engine enhanced"
+      - "rhsafrf:/arma3/servermods/@rhsafrf"
+      - "rhsgref:/arma3/servermods/@rhsgref"
+      - "rhsusaf:/arma3/servermods/@rhsusaf"
+      - "sahatra:/arma3/servermods/@sa'hatra"
+      - "virolahti_map:/arma3/servermods/@virolahti - valtatie 7"
+      - "vsm_all_in_ace:/arma3/servermods/@ace3 arsenal extended - vsm all-in-one (fixed)"
+      - "vsm_all_in_one:/arma3/servermods/@vsm all-in-one collection"
+      - "zeic:/arma3/servermods/@zeic - zeus and eden interior community version"
+      - "zeus_additions:/arma3/servermods/@zeus additions"
+      - "zeus_enchanced:/arma3/servermods/@zeus enhanced"
+
+    environment:
+      ARMA_BINARY: ${ARMA_BINARY}
+      ARMA_CDLC: ${ARMA_CDLC}
+      ARMA_CONFIG: ${ARMA_CONFIG}
+      ARMA_LIMITFPS: ${ARMA_LIMITFPS}
+      ARMA_PARAMS: ${ARMA_PARAMS}
+      ARMA_PROFILE: ${ARMA_PROFILE}
+      ARMA_WORLD: ${ARMA_WORLD}
+      HEADLESS_CLIENTS: ${HEADLESS_CLIENTS}
+      HEADLESS_CLIENTS_PROFILE: ${HEADLESS_CLIENTS_PROFILE}
+      MODS_LOCAL: ${MODS_LOCAL}
+      PORT: ${PORT}
+      STEAM_BRANCH: ${STEAM_BRANCH}
+      STEAM_BRANCH_PASSWORD: ${STEAM_BRANCH_PASSWORD}
+      STEAM_PASSWORD: ${STEAM_PASSWORD}
+      STEAM_USER: ${STEAM_USER}
+
+volumes:
+  arma3_armada_config:
+    name: arma3_armada_config
+
+  a3_server:
+    name: a3_server
+
+  a3_missions:
+    name: a3_missions
+
+  a3_addons:
+    name: a3_addons
+
+  a3_argo:
+    name: a3_argo
+
+  a3_enoch:
+    name: a3_enoch
+
+  a3_expansion:
+    name: a3_expansion
+
+  a3_heli:
+    name: a3_heli
+
+  a3_jets:
+    name: a3_jets
+
+  a3_orange:
+    name: a3_orange
+
+  # === MODY ===
+
+  3den_enchanced:
+    name: 3den_enchanced
+
+  a3_thermal_impro:
+    name: a3_thermal_impro
+
+  ace:
+    name: ace
+
+  ace_armor_adjuster:
+    name: ace_armor_adjuster
+
+  ace_ars_ext_core:
+    name: ace_ars_ext_core
+
+  ace_ars_ext_rhs:
+    name: ace_ars_ext_rhs
+
+  ace_ars_ext_vanil:
+    name: ace_ars_ext_vanil
+
+  acre2:
+    name: acre2
+
+  backpackonchest:
+    name: backpackonchest
+
+  betterinventory:
+    name: betterinventory
+
+  bettir_nvg:
+    name: bettir_nvg
+
+  blastcore:
+    name: blastcore
+
+  bw_mod:
+    name: bw_mod
+
+  cba_a3:
+    name: cba_a3
+
+  ch_view_distance:
+    name: ch_view_distance
+
+  chemical_warfare_plus:
+    name: chemical_warfare_plus
+
+  colombia:
+    name: colombia
+
+  ctab_devastator:
+    name: ctab_devastator
+
+  cup_terrains_cwa:
+    name: cup_terrains_cwa
+
+  cup_terrains_map:
+    name: cup_terrains_map
+
+  cup_terrians_core:
+    name: cup_terrians_core
+
+  dco_soldier:
+    name: dco_soldier
+
+  dco_unit_scanner:
+    name: dco_unit_scanner
+
+  dui_sqd_radar:
+    name: dui_sqd_radar
+
+  enchenced_movment:
+    name: enchenced_movment
+
+  enchenced_movment_rework:
+    name: enchenced_movment_rework
+
+  fir_aws:
+    name: fir_aws
+
+  fir_f16:
+    name: fir_f16
+
+  fire_support:
+    name: fire_support
+
+  grad_civ:
+    name: grad_civ
+
+  gruppe_adler_trenches:
+    name: gruppe_adler_trenches
+
+  immerse:
+    name: immerse
+
+  katmed:
+    name: katmed
+
+  kt_weapon_pack:
+    name: kt_weapon_pack
+
+  kunduz_river_map:
+    name: kunduz_river_map
+
+  ladder_tweak_remaster:
+    name: ladder_tweak_remaster
+
+  maptools:
+    name: maptools
+
+  mrb_air:
+    name: mrb_air
+
+  mrb_sea:
+    name: mrb_sea
+
+  mrb_vechicle:
+    name: mrb_vechicle
+
+  project_opfor:
+    name: project_opfor
+
+  real_engine_enhanced:
+    name: real_engine_enhanced
+
+  rhsafrf:
+    name: rhsafrf
+
+  rhsgref:
+    name: rhsgref
+
+  rhsusaf:
+    name: rhsusaf
+
+  sahatra:
+    name: sahatra
+
+  virolahti_map:
+    name: virolahti_map
+
+  vsm_all_in_ace:
+    name: vsm_all_in_ace
+
+  vsm_all_in_one:
+    name: vsm_all_in_one
+
+  zeic:
+    name: zeic
+
+  zeus_additions:
+    name: zeus_additions
+
+  zeus_enchanced:
+    name: zeus_enchanced
