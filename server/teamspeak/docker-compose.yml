@@ -1,0 +1,53 @@
+name: team_speak_3
+
+services:
+  teamspeak:
+    image: teamspeak:latest
+    container_name: teamspeak_server
+    restart: always
+    ports:
+      - "9987:9987/udp"
+      - "10011:10011/tcp"
+      - "30033:30033/tcp"
+    environment:
+      TS3SERVER_DB_PLUGIN: ${TS3SERVER_DB_PLUGIN}
+      TS3SERVER_DB_SQLCREATEPATH: ${TS3SERVER_DB_SQLCREATEPATH}
+      TS3SERVER_DB_HOST: ${TS3SERVER_DB_HOST}
+      TS3SERVER_DB_USER: ${TS3SERVER_DB_USER}
+      TS3SERVER_DB_PASSWORD: ${TS3SERVER_DB_PASSWORD}
+      TS3SERVER_DB_NAME: ${TS3SERVER_DB_NAME}
+      TS3SERVER_DB_WAITUNTILREADY: ${TS3SERVER_DB_WAITUNTILREADY}
+      TS3SERVER_LICENSE: ${TS3SERVER_LICENSE}
+
+    labels:
+      - "portical.upnp.forward=published"
+
+    volumes:
+      - ts3_data:/var/ts3server/
+
+    networks:
+      - ts_network
+
+  db:
+    image: mariadb:latest
+    container_name: teamspeak_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    networks:
+      - ts_network
+
+networks:
+  ts_network:
+    driver: bridge
+
+volumes:
+  ts3_data:
+    name: ts3_data
+  mariadb_data:
+    name: mariadb_data
