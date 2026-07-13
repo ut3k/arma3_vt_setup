@@ -47,7 +47,7 @@ services:
       STEAM_BRANCH: "${STEAM_BRANCH}"
       STEAM_BRANCH_PASSWORD: "${STEAM_BRANCH_PASSWORD}"
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
-      STEAM_USER: "${STEAM_USER}"
+      STEAM_USER: "${STEAM_ACCOUNT}"
 
   mod_downloader:
     image: steamcmd/steamcmd:ubuntu-22
@@ -70,7 +70,7 @@ services:
       WORKSHOP_DIR: "${WORKSHOP_DIR:-/root/Steam/steamapps/workshop/content/107410}"
       TARGET_DIR: "${TARGET_DIR:-/arma3/servermods}"
       STEAMCMD: "${STEAMCMD:-steamcmd}"
-      STEAM_LOGIN: "${STEAM_LOGIN}"
+      STEAM_LOGIN: "${STEAM_ACCOUNT}"
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
 
     entrypoint:
