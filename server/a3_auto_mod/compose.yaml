@@ -1,0 +1,90 @@
+services:
+  arma3:
+    image: ghcr.io/brettmayson/arma3server/arma3server:latest
+    platform: linux/amd64
+    container_name: a3_automod
+    ports:
+      - "2302:2302/udp"
+      - "2303:2303/udp"
+      - "2304:2304/udp"
+      - "2305:2305/udp"
+      - "2306:2306/udp"
+    labels:
+      - "portical.upnp.forward=published"
+    restart: unless-stopped
+
+    volumes:
+      # Config Armada
+      - arma3_armada_config:/arma3/configs
+
+      # elementy wspolne
+      - a3_server:/arma3
+      - a3_missions:/arma3/mpmissions
+
+      # === DLC ===
+      - a3_addons:/arma3/addons
+      - a3_argo:/arma3/argo
+      - a3_enoch:/arma3/enoch
+      - a3_expansion:/arma3/expansion
+      - a3_heli:/arma3/heli
+      - a3_jets:/arma3/jets
+      - a3_orange:/arma3/orange
+
+      # mody
+      - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
+      - smalletters_mods:/arma3/servermods
+
+    environment:
+      ARMA_BINARY: ${ARMA_BINARY}
+      ARMA_CDLC: ${ARMA_CDLC}
+      ARMA_CONFIG: ${ARMA_CONFIG}
+      ARMA_LIMITFPS: ${ARMA_LIMITFPS}
+      ARMA_PARAMS: ${ARMA_PARAMS}
+      ARMA_PROFILE: ${ARMA_PROFILE}
+      ARMA_WORLD: ${ARMA_WORLD}
+      HEADLESS_CLIENTS: ${HEADLESS_CLIENTS}
+      HEADLESS_CLIENTS_PROFILE: ${HEADLESS_CLIENTS_PROFILE}
+      MODS_LOCAL: ${MODS_LOCAL}
+      PORT: ${PORT}
+      STEAM_BRANCH: ${STEAM_BRANCH}
+      STEAM_BRANCH_PASSWORD: ${STEAM_BRANCH_PASSWORD}
+      STEAM_PASSWORD: ${STEAM_PASSWORD}
+      STEAM_USER: ${STEAM_USER}
+      #MODS_PRESET: https://github.com/ut3k/arma3_vt_setup/releases/download/vV16/VT_ARMADA_V16.html
+
+volumes:
+  arma3_armada_config:
+    name: arma3_armada_config
+
+  a3_server:
+    name: a3_server
+
+  a3_missions:
+    name: a3_missions
+
+  a3_addons:
+    name: a3_addons
+
+  a3_argo:
+    name: a3_argo
+
+  a3_enoch:
+    name: a3_enoch
+
+  a3_expansion:
+    name: a3_expansion
+
+  a3_heli:
+    name: a3_heli
+
+  a3_jets:
+    name: a3_jets
+
+  a3_orange:
+    name: a3_orange
+
+  # === MODY ===
+  a3_raw_mods:
+    external: true
+  smalletters_mods:
+    external: true
