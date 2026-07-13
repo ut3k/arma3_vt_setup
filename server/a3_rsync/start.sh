@@ -1,5 +1,6 @@
-#!/bin/bash
-if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
-  ssh-keygen -A
-fi
-/usr/sbin/sshd -D -p 8873
+#!/usr/bin/env bash
+set -euo pipefail
+
+ssh-keygen -A
+
+exec /usr/sbin/sshd -D -e -p 8873
