@@ -29,7 +29,7 @@ services:
 
 volumes:
   a3_preset:
-    external: true
+    name: a3_preset
   a3_raw_mods:
     name: a3_raw_mods
   smalletters_mods:

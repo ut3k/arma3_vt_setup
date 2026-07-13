@@ -10,7 +10,6 @@ services:
     environment:
       PUID: 1000
       PGID: 1000
-
     volumes:
       # Istniejący wolumen, do którego chcesz wgrywać pliki
       - a3_missions:/srv/misje
@@ -22,7 +21,7 @@ services:
 
 volumes:
   a3_preset:
-    name: a3_preset
+    external: true
   a3_missions:
     external: true
   arma3_armada_config:
