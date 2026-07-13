@@ -7,7 +7,6 @@ RUN apk add --no-cache \
     sudo
 
 RUN adduser -D -s /bin/bash rsyncuser && \
-    passwd -l rsyncuser && \
     mkdir -p /data /run/sshd /root/.ssh && \
     chmod 700 /root/.ssh && \
     ssh-keygen -A

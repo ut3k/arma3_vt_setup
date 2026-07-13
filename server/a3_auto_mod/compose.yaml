@@ -85,10 +85,25 @@ services:
           sleep 1h
         done
 
+  fix_preset_permissions:
+    image: alpine:3.20
+    container_name: fix_a3_preset_permissions
+    restart: "no"
+    user: "0:0"
+    command: >
+      sh -c "mkdir -p /preset &&
+             chown -R ${PUID:-1000}:${PGID:-1000} /preset &&
+             chmod -R u+rwX,g+rwX /preset"
+    volumes:
+      - a3_preset:/preset
   filebrowser:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     restart: unless-stopped
+
+    depends_on:
+      fix_preset_permissions:
+        condition: service_completed_successfully
 
     ports:
       - "8088:80"
@@ -103,11 +118,9 @@ services:
       - a3_preset:/srv/preset
       - filebrowser_database:/database
       - filebrowser_config:/config
-
 volumes:
   arma3_armada_config:
     name: arma3_armada_config
-
   a3_server:
     name: a3_server
 
