@@ -3,25 +3,24 @@ services:
     image: ghcr.io/brettmayson/arma3server/arma3server:latest
     platform: linux/amd64
     container_name: a3_automod
+    restart: unless-stopped
+    init: true
+
     ports:
       - "2302:2302/udp"
       - "2303:2303/udp"
       - "2304:2304/udp"
       - "2305:2305/udp"
       - "2306:2306/udp"
+
     labels:
       - "portical.upnp.forward=published"
-    restart: unless-stopped
 
     volumes:
-      # Config Armada
       - arma3_armada_config:/arma3/configs
-
-      # elementy wspolne
       - a3_server:/arma3
       - a3_missions:/arma3/mpmissions
 
-      # === DLC ===
       - a3_addons:/arma3/addons
       - a3_argo:/arma3/argo
       - a3_enoch:/arma3/enoch
@@ -30,27 +29,80 @@ services:
       - a3_jets:/arma3/jets
       - a3_orange:/arma3/orange
 
-      # mody
       - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
       - smalletters_mods:/arma3/servermods
 
     environment:
-      ARMA_BINARY: ${ARMA_BINARY}
-      ARMA_CDLC: ${ARMA_CDLC}
-      ARMA_CONFIG: ${ARMA_CONFIG}
-      ARMA_LIMITFPS: ${ARMA_LIMITFPS}
-      ARMA_PARAMS: ${ARMA_PARAMS}
-      ARMA_PROFILE: ${ARMA_PROFILE}
-      ARMA_WORLD: ${ARMA_WORLD}
-      HEADLESS_CLIENTS: ${HEADLESS_CLIENTS}
-      HEADLESS_CLIENTS_PROFILE: ${HEADLESS_CLIENTS_PROFILE}
-      MODS_LOCAL: ${MODS_LOCAL}
-      PORT: ${PORT}
-      STEAM_BRANCH: ${STEAM_BRANCH}
-      STEAM_BRANCH_PASSWORD: ${STEAM_BRANCH_PASSWORD}
-      STEAM_PASSWORD: ${STEAM_PASSWORD}
-      STEAM_USER: ${STEAM_USER}
-      #MODS_PRESET: https://github.com/ut3k/arma3_vt_setup/releases/download/vV16/VT_ARMADA_V16.html
+      ARMA_BINARY: "${ARMA_BINARY}"
+      ARMA_CDLC: "${ARMA_CDLC}"
+      ARMA_CONFIG: "${ARMA_CONFIG}"
+      ARMA_LIMITFPS: "${ARMA_LIMITFPS}"
+      ARMA_PARAMS: "${ARMA_PARAMS}"
+      ARMA_PROFILE: "${ARMA_PROFILE}"
+      ARMA_WORLD: "${ARMA_WORLD}"
+      HEADLESS_CLIENTS: "${HEADLESS_CLIENTS}"
+      HEADLESS_CLIENTS_PROFILE: "${HEADLESS_CLIENTS_PROFILE}"
+      MODS_LOCAL: "${MODS_LOCAL}"
+      PORT: "${PORT}"
+      STEAM_BRANCH: "${STEAM_BRANCH}"
+      STEAM_BRANCH_PASSWORD: "${STEAM_BRANCH_PASSWORD}"
+      STEAM_PASSWORD: "${STEAM_PASSWORD}"
+      STEAM_USER: "${STEAM_USER}"
+
+  mod_downloader:
+    image: steamcmd/steamcmd:ubuntu-22
+    platform: linux/amd64
+    container_name: mod_dl
+    restart: unless-stopped
+    init: true
+
+    working_dir: /work
+
+    volumes:
+      - ./mod_dl:/work:ro
+      - a3_preset:/data/preset
+      - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
+      - smalletters_mods:/arma3/servermods
+
+    environment:
+      APP_ID: "${APP_ID:-107410}"
+      PRESET_DIR: "${PRESET_DIR:-/data/preset}"
+      WORKSHOP_DIR: "${WORKSHOP_DIR:-/root/Steam/steamapps/workshop/content/107410}"
+      TARGET_DIR: "${TARGET_DIR:-/arma3/servermods}"
+      STEAMCMD: "${STEAMCMD:-steamcmd}"
+      STEAM_LOGIN: "${STEAM_LOGIN}"
+      STEAM_PASSWORD: "${STEAM_PASSWORD}"
+
+    entrypoint:
+      - /bin/bash
+      - -lc
+      - |
+        set -euo pipefail
+        trap 'exit 0' TERM INT
+        while true; do
+          /work/mod_dl.sh
+          echo "Czekam 1h do następnego uruchomienia..."
+          sleep 1h
+        done
+
+  filebrowser:
+    image: filebrowser/filebrowser:v2-s6
+    container_name: filebrowser
+    restart: unless-stopped
+
+    ports:
+      - "8088:80"
+
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+
+    volumes:
+      - a3_missions:/srv/misje
+      - arma3_armada_config:/srv/config
+      - a3_preset:/srv/preset
+      - filebrowser_database:/database
+      - filebrowser_config:/config
 
 volumes:
   arma3_armada_config:
@@ -83,8 +135,17 @@ volumes:
   a3_orange:
     name: a3_orange
 
-  # === MODY ===
+  a3_preset:
+    name: a3_preset
+
   a3_raw_mods:
-    external: true
+    name: a3_raw_mods
+
   smalletters_mods:
-    external: true
+    name: smalletters_mods
+
+  filebrowser_database:
+    name: filebrowser_database
+
+  filebrowser_config:
+    name: filebrowser_config
