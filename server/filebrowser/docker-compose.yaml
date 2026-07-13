@@ -15,7 +15,7 @@ services:
       # Istniejący wolumen, do którego chcesz wgrywać pliki
       - a3_missions:/srv/misje
       - arma3_armada_config:/srv/config
-      - a3_preset:/preset/preset
+      - a3_preset:/srv/preset
       # Konfiguracja i baza użytkowników File Browser
       - filebrowser_database:/database
       - filebrowser_config:/config
