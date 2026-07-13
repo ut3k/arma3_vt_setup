@@ -91,33 +91,39 @@ cleanup_stale_mods() {
   done < <(find "$WORKSHOP_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
 }
 
-download_one() {
-  local id="${1:?Brak ID moda}"
+download_all() {
   local attempt=1
   local max_attempts=3
+  local id
+  local -a steamcmd_args
 
   while (( attempt <= max_attempts )); do
-    echo "Pobieranie moda $id, próba $attempt/$max_attempts"
+    echo "Pobieranie ${#MOD_IDS[@]} modów, próba $attempt/$max_attempts"
 
-    if "$STEAMCMD" \
-      +login "$STEAM_LOGIN" "$STEAM_PASSWORD" \
-      +workshop_download_item "$APP_ID" "$id" validate \
-      +quit; then
+    steamcmd_args=(+login "$STEAM_LOGIN" "$STEAM_PASSWORD")
+
+    for id in "${MOD_IDS[@]}"; do
+      steamcmd_args+=(+workshop_download_item "$APP_ID" "$id" validate)
+    done
+
+    steamcmd_args+=(+quit)
+
+    if "$STEAMCMD" "${steamcmd_args[@]}"; then
       return 0
     fi
 
-    echo "Błąd pobierania moda $id, ponawiam..."
+    echo "Błąd pobierania modów, ponawiam..."
     ((attempt++))
     sleep 5
   done
 
-  echo "Nie udało się pobrać moda $id po $max_attempts próbach" >&2
+  echo "Nie udało się pobrać modów po $max_attempts próbach" >&2
   return 1
 }
 
 create_lower_symlinks() {
-    mkdir -p "$TARGET_DIR"
-    find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+  mkdir -p "$TARGET_DIR"
+  find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
 
   while IFS= read -r -d '' dir; do
     rel_path="${dir#$WORKSHOP_DIR/}"
@@ -139,11 +145,8 @@ echo "oczyszczam nie używane mody"
 cleanup_stale_mods
 echo "oczyszczanie zakończone"
 
-
 echo "Rozpoczynam pobieranie modów"
-for id in "${MOD_IDS[@]}"; do
-  download_one "$id"
-done
+download_all
 
 echo "Pobieranie zakończone"
 echo "Generuje symlinki"
