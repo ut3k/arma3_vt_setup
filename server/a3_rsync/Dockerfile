@@ -19,7 +19,8 @@ RUN { \
       echo "AuthorizedKeysFile .ssh/authorized_keys"; \
     } >> /etc/ssh/sshd_config
 
-COPY --chmod=755 start.sh /start.sh
+COPY start.sh /start.sh
+RUN sed -i 's/\r$//' /start.sh && chmod 755 /start.sh
 
 EXPOSE 8873/tcp
 
