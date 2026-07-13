@@ -59,7 +59,7 @@ services:
     working_dir: /work
 
     volumes:
-      - ./scripts:/work:ro
+      - ./scripts:/work
       - a3_preset:/data/preset
       - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
       - smalletters_mods:/arma3/servermods
