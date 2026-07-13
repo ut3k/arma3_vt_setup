@@ -1,0 +1,36 @@
+services:
+  mod_downloader:
+    image: steamcmd/steamcmd:ubuntu-22
+    restart: "no"
+    container_name: mod_dl
+
+    stdin_open: true
+    tty: true
+    working_dir: /work
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./:/work
+      - a3_preset:/data/preset
+      - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
+      - smalletters_mods:/arma3/servermods
+
+    entrypoint:
+      - /bin/bash
+      - -lc
+      - |
+        while true; do
+          /work/mod_dl.sh
+          echo "Czekam 1h do następnego uruchomienia..."
+          sleep 1h
+        done
+
+volumes:
+  a3_preset:
+    external: true
+  a3_raw_mods:
+    name: a3_raw_mods
+  smalletters_mods:
+    name: smalletters_mods
