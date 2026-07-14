@@ -81,8 +81,8 @@ services:
         trap 'exit 0' TERM INT
         while true; do
           bash /work/mod_dl.sh
-          echo "Czekam 1h do następnego uruchomienia..."
-          sleep 1h
+          echo "Czekam 8h do następnego uruchomienia..."
+          sleep 8h
         done
 
   filebrowser:
