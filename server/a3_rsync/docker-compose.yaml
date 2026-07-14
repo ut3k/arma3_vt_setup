@@ -19,7 +19,7 @@ services:
     volumes:
       # Klucze SSH
       # TODO: dodać bezpieczne rozwiązanie do automatycznego dodawania authorized_keys
-      # - /home/debian/klucze:/root/.ssh:ro
+      - /home/debian/klucze:/root/.ssh:ro
 
       # Konfiguracja
       - arma3_armada_config:/data/armada/config
