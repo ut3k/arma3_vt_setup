@@ -11,7 +11,10 @@ services:
     pull_policy: build
 
     container_name: rsync-ssh-server
-    restart: unless-stopped
+    restart: "no"
+
+    environment:
+      AUTO_STOP_AFTER_SECONDS: "1200"
 
     ports:
       - "8873:8873"
@@ -38,40 +41,3 @@ services:
       - a3_heli:/arma3/server/heli
       - a3_jets:/arma3/server/jets
       - a3_orange:/arma3/server/orange
-
-volumes:
-  arma3_armada_config:
-    name: arma3_armada_config
-
-  arma3_phantom_venom_config:
-    name: arma3_phantom_venom_config
-
-  arma3_spartan_config:
-    name: arma3_spartan_config
-
-  arma3_rc_config:
-    name: arma3_rc_config
-
-  a3_missions:
-    name: a3_missions
-
-  a3_addons:
-    name: a3_addons
-
-  a3_argo:
-    name: a3_argo
-
-  a3_enoch:
-    name: a3_enoch
-
-  a3_expansion:
-    name: a3_expansion
-
-  a3_heli:
-    name: a3_heli
-
-  a3_jets:
-    name: a3_jets
-
-  a3_orange:
-    name: a3_orange
