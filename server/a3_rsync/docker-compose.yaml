@@ -1,0 +1,77 @@
+services:
+  rsync-ssh-server:
+    image: a3-rsync-ssh-server:latest
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+      tags:
+        - a3-rsync-ssh-server:latest
+
+    pull_policy: build
+
+    container_name: rsync-ssh-server
+    restart: unless-stopped
+
+    ports:
+      - "8873:8873"
+
+    volumes:
+      # Klucze SSH
+      # TODO: dodać bezpieczne rozwiązanie do automatycznego dodawania authorized_keys
+      # - /home/debian/klucze:/root/.ssh:ro
+
+      # Konfiguracja
+      - arma3_armada_config:/data/armada/config
+      - arma3_phantom_venom_config:/data/phantom_venom/config
+      - arma3_spartan_config:/data/spartan/config
+      - arma3_rc_config:/data/armarc/config
+
+      # WSPOLNE
+      - a3_missions:/data/mpmissions
+
+      # === DLC ===
+      - a3_addons:/arma3/server/addons
+      - a3_argo:/arma3/server/argo
+      - a3_enoch:/arma3/server/enoch
+      - a3_expansion:/arma3/server/expansion
+      - a3_heli:/arma3/server/heli
+      - a3_jets:/arma3/server/jets
+      - a3_orange:/arma3/server/orange
+
+volumes:
+  arma3_armada_config:
+    name: arma3_armada_config
+
+  arma3_phantom_venom_config:
+    name: arma3_phantom_venom_config
+
+  arma3_spartan_config:
+    name: arma3_spartan_config
+
+  arma3_rc_config:
+    name: arma3_rc_config
+
+  a3_missions:
+    name: a3_missions
+
+  a3_addons:
+    name: a3_addons
+
+  a3_argo:
+    name: a3_argo
+
+  a3_enoch:
+    name: a3_enoch
+
+  a3_expansion:
+    name: a3_expansion
+
+  a3_heli:
+    name: a3_heli
+
+  a3_jets:
+    name: a3_jets
+
+  a3_orange:
+    name: a3_orange
