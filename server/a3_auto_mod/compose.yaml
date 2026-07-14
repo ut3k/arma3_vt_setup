@@ -90,10 +90,6 @@ services:
     container_name: filebrowser
     restart: unless-stopped
 
-    depends_on:
-      fix_preset_permissions:
-        condition: service_completed_successfully
-
     ports:
       - "8088:80"
 
