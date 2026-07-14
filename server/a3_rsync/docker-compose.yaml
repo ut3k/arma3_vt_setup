@@ -8,7 +8,7 @@ services:
       tags:
         - a3-rsync-ssh-server:latest
 
-    pull_policy: build
+    pull_policy: never
 
     container_name: rsync-ssh-server
     restart: "no"
