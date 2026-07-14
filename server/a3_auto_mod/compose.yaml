@@ -85,17 +85,6 @@ services:
           sleep 1h
         done
 
-  fix_preset_permissions:
-    image: alpine:3.20
-    container_name: fix_a3_preset_permissions
-    restart: "no"
-    user: "0:0"
-    command: >
-      sh -c "mkdir -p /preset &&
-             chown -R ${PUID:-1000}:${PGID:-1000} /preset &&
-             chmod -R u+rwX,g+rwX /preset"
-    volumes:
-      - a3_preset:/preset
   filebrowser:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser

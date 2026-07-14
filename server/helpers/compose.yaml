@@ -1,0 +1,17 @@
+services:
+  fix_preset_permissions:
+    image: alpine:3.20
+    container_name: fix_a3_preset_permissions
+    restart: "no"
+    user: "0:0"
+    command: >
+      sh -c "mkdir -p /preset &&
+             chown -R ${PUID:-1000}:${PGID:-1000} /preset &&
+             chmod -R u+rwX,g+rwX /preset"
+    volumes:
+      - a3_preset:/preset
+
+volumes:
+
+  a3_preset:
+    name: a3_preset
