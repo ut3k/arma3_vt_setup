@@ -46,6 +46,13 @@ volumes:
   # Konfiguracja
   arma3_armada_config:
     name: arma3_armada_config
+  arma3_phantom_venom_config:
+    name: arma3_phantom_venom_config
+  arma3_spartan_config:
+    name: arma3_spartan_config
+  arma3_rc_config:
+    name: arma3_rc_config
+
   a3_server:
     name: a3_server
   # Pliki misji
