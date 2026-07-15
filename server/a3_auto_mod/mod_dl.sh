@@ -18,7 +18,24 @@ if [[ -f .env ]]; then
   set +a
 fi
 
-: "${STEAM_LOGIN:?Brak STEAM_LOGIN w pliku .env}"
+# Zmienne obliczane muszą znajdować się w skrypcie, a nie w .env.
+MOD_STORAGE_DIR="${MOD_STORAGE_DIR:-.storage}"
+PORTABLE_WORKSHOP_DIR="$TARGET_DIR/$MOD_STORAGE_DIR/workshop/$APP_ID"
+
+READY_FILE="$TARGET_DIR/.mods-ready"
+READY_FILE_TMP="${READY_FILE}.tmp"
+
+# Compose przekazuje STEAM_LOGIN, ale ten fallback umożliwia również
+# bezpośrednie uruchomienie skryptu z wartością STEAM_ACCOUNT.
+STEAM_LOGIN="${STEAM_LOGIN:-${STEAM_ACCOUNT:-}}"
+
+: "${STEAM_LOGIN:?Brak STEAM_LOGIN lub STEAM_ACCOUNT}"
+: "${STEAM_PASSWORD:?Brak STEAM_PASSWORD}"
+
+mkdir -p "$TARGET_DIR" "$PORTABLE_WORKSHOP_DIR"
+
+# Brak markera oznacza synchronizację w toku albo błąd.
+rm -f -- "$READY_FILE" "$READY_FILE_TMP"
 
 if ! command -v "$STEAMCMD" >/dev/null 2>&1; then
   echo "Nie znaleziono SteamCMD: $STEAMCMD" >&2
