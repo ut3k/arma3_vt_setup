@@ -122,23 +122,111 @@ download_all() {
 }
 
 create_lower_symlinks() {
-  mkdir -p "$TARGET_DIR"
-  find "$TARGET_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+  local dir
+  local file
+  local rel_path
+  local lower_path
+  local lower_file
+  local link_path
+  local portable_source
+  local relative_source
+
+  mkdir -p "$TARGET_DIR" "$PORTABLE_WORKSHOP_DIR"
+
+  # Usuń stary widok, ale zachowaj prawdziwe dane w .storage.
+  find "$TARGET_DIR" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    ! -name "$MOD_STORAGE_DIR" \
+    -exec rm -rf -- {} +
 
   while IFS= read -r -d '' dir; do
     rel_path="${dir#$WORKSHOP_DIR/}"
     lower_path="$(printf '%s' "$rel_path" | tr '[:upper:]' '[:lower:]')"
-    mkdir -p "$(dirname "$TARGET_DIR/$lower_path")"
-  done < <(find "$WORKSHOP_DIR" -mindepth 1 -type d -print0)
+
+    mkdir -p "$TARGET_DIR/$lower_path"
+  done < <(
+    find "$WORKSHOP_DIR" \
+      -mindepth 1 \
+      -type d \
+      -print0
+  )
 
   while IFS= read -r -d '' file; do
     rel_path="${file#$WORKSHOP_DIR/}"
     lower_file="$(printf '%s' "$rel_path" | tr '[:upper:]' '[:lower:]')"
-    mkdir -p "$(dirname "$TARGET_DIR/$lower_file")"
-    if [[ ! -L "$TARGET_DIR/$lower_file" ]]; then
-      ln -s "$file" "$TARGET_DIR/$lower_file"
+
+    link_path="$TARGET_DIR/$lower_file"
+    portable_source="$PORTABLE_WORKSHOP_DIR/$rel_path"
+
+    mkdir -p "$(dirname "$link_path")"
+
+    if [[ -e "$link_path" || -L "$link_path" ]]; then
+      echo "Kolizja ścieżki lowercase: $lower_file" >&2
+      return 1
     fi
-  done < <(find "$WORKSHOP_DIR" -type f -print0)
+
+    # Symlink względny — działa po podpięciu wolumenu do innej usługi.
+    relative_source="$(
+      realpath \
+        --relative-to="$(dirname "$link_path")" \
+        "$portable_source"
+    )"
+
+    ln -s "$relative_source" "$link_path"
+  done < <(
+    find "$WORKSHOP_DIR" \
+      -type f \
+      -print0
+  )
+}
+
+validate_lower_symlinks() {
+  local broken_link
+  local source_count
+  local target_count
+
+  broken_link="$(
+    find "$TARGET_DIR" \
+      -path "$TARGET_DIR/$MOD_STORAGE_DIR" -prune -o \
+      -type l \
+      ! -exec test -e {} \; \
+      -print \
+      -quit
+  )"
+
+  if [[ -n "$broken_link" ]]; then
+    echo "Niedziałający symlink: $broken_link" >&2
+    return 1
+  fi
+
+  source_count="$(
+    find "$WORKSHOP_DIR" \
+      -type f \
+      -printf '.' \
+      | wc -c
+  )"
+
+  target_count="$(
+    find "$TARGET_DIR" \
+      -path "$TARGET_DIR/$MOD_STORAGE_DIR" -prune -o \
+      -type l \
+      -printf '.' \
+      | wc -c
+  )"
+
+  if (( source_count == 0 )); then
+    echo "Magazyn nie zawiera plików modów" >&2
+    return 1
+  fi
+
+  if (( source_count != target_count )); then
+    echo "Liczba plików i symlinków jest różna" >&2
+    echo "Źródła: $source_count, symlinki: $target_count" >&2
+    return 1
+  fi
+
+  echo "Walidacja symlinków zakończona pomyślnie"
 }
 
 echo "oczyszczam nie używane mody"
@@ -149,8 +237,15 @@ echo "Rozpoczynam pobieranie modów"
 download_all
 
 echo "Pobieranie zakończone"
-echo "Generuje symlinki"
-create_lower_symlinks
-echo "Symlinki LOWER CASE gotowe"
 
-echo "MODY Gotowe"
+echo "Generuję symlinki lowercase"
+create_lower_symlinks
+
+echo "Waliduję symlinki"
+validate_lower_symlinks
+
+printf 'ready\n' > "$READY_FILE_TMP"
+mv -f -- "$READY_FILE_TMP" "$READY_FILE"
+
+echo "Symlinki lowercase gotowe"
+echo "MODY gotowe"
