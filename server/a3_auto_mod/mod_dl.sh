@@ -20,7 +20,7 @@ fi
 
 # Zmienne obliczane muszą znajdować się w skrypcie, a nie w .env.
 MOD_STORAGE_DIR="${MOD_STORAGE_DIR:-.storage}"
-PORTABLE_WORKSHOP_DIR="$TARGET_DIR/$MOD_STORAGE_DIR/workshop/$APP_ID"
+PORTABLE_WORKSHOP_DIR="$TARGET_DIR/$MOD_STORAGE_DIR/workshop/content/$APP_ID"
 
 READY_FILE="$TARGET_DIR/.mods-ready"
 READY_FILE_TMP="${READY_FILE}.tmp"
@@ -41,6 +41,24 @@ if ! command -v "$STEAMCMD" >/dev/null 2>&1; then
   echo "Nie znaleziono SteamCMD: $STEAMCMD" >&2
   exit 1
 fi
+
+clean_steam_cache() {
+  local steam_root="/root/Steam"
+  echo "=== Oczyszczanie pamięci podręcznej i logów SteamCMD ==="
+  
+  if [[ -d "$steam_root/steamapps/workshop/downloads" ]]; then
+    find "$steam_root/steamapps/workshop/downloads" -mindepth 1 -delete 2>/dev/null || true
+  fi
+  if [[ -d "$steam_root/steamapps/downloading" ]]; then
+    find "$steam_root/steamapps/downloading" -mindepth 1 -delete 2>/dev/null || true
+  fi
+  if [[ -d "$steam_root/steamapps/temp" ]]; then
+    find "$steam_root/steamapps/temp" -mindepth 1 -delete 2>/dev/null || true
+  fi
+  if [[ -d "$steam_root/logs" ]]; then
+    find "$steam_root/logs" -mindepth 1 -delete 2>/dev/null || true
+  fi
+}
 
 resolve_preset() {
   local preset_arg="${1:-}"
@@ -246,6 +264,8 @@ validate_lower_symlinks() {
   echo "Walidacja symlinków zakończona pomyślnie"
 }
 
+clean_steam_cache
+
 echo "oczyszczam nie używane mody"
 cleanup_stale_mods
 echo "oczyszczanie zakończone"
@@ -260,6 +280,8 @@ create_lower_symlinks
 
 echo "Waliduję symlinki"
 validate_lower_symlinks
+
+clean_steam_cache
 
 printf 'ready\n' > "$READY_FILE_TMP"
 mv -f -- "$READY_FILE_TMP" "$READY_FILE"
