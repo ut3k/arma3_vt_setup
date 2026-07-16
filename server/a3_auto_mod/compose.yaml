@@ -80,23 +80,36 @@ services:
       - -eu
       - -c
       - |
-        workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/$${APP_ID}"
-        migration_marker="/storage/$${MOD_STORAGE_DIR}/.layout-v1"
+        workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/content/$${APP_ID}"
+        migration_marker_v1="/storage/$${MOD_STORAGE_DIR}/.layout-v1"
+        migration_marker_v2="/storage/$${MOD_STORAGE_DIR}/.layout-v2"
 
-        mkdir -p "$${workshop_dir}"
-
-        # Jednorazowa migracja istniejących modów z głównego katalogu
-        # starego wolumenu a3_raw_mods.
-        if [ ! -f "$${migration_marker}" ]; then
-          echo "Migracja istniejących modów do $${workshop_dir}"
+        # One-time migration: root to v1 (.storage/workshop/107410)
+        if [ ! -f "$${migration_marker_v1}" ]; then
+          old_workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/$${APP_ID}"
+          mkdir -p "$${old_workshop_dir}"
+          echo "Migracja istniejących modów do $${old_workshop_dir}"
 
           find /storage \
             -mindepth 1 \
             -maxdepth 1 \
             ! -name "$${MOD_STORAGE_DIR}" \
-            -exec mv {} "$${workshop_dir}/" \;
+            -exec mv {} "$${old_workshop_dir}/" \;
 
-          touch "$${migration_marker}"
+          touch "$${migration_marker_v1}"
+        fi
+
+        # One-time migration: v1 to v2 (.storage/workshop/content/107410)
+        if [ ! -f "$${migration_marker_v2}" ]; then
+          echo "Migracja z układu v1 do v2 (wprowadzenie podkatalogu content)"
+          old_workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/$${APP_ID}"
+          if [ -d "$${old_workshop_dir}" ]; then
+            mkdir -p "/storage/$${MOD_STORAGE_DIR}/workshop/content"
+            mv "$${old_workshop_dir}" "/storage/$${MOD_STORAGE_DIR}/workshop/content/"
+          else
+            mkdir -p "$${workshop_dir}"
+          fi
+          touch "$${migration_marker_v2}"
         fi
 
   mod_downloader:
@@ -125,10 +138,10 @@ services:
       # SteamCMD zapisuje bezpośrednio do podkatalogu tego samego wolumenu
       - type: volume
         source: a3_mod_storage
-        target: /root/Steam/steamapps/workshop/content/107410
+        target: /root/Steam/steamapps/workshop
         volume:
           nocopy: true
-          subpath: "${MOD_STORAGE_DIR:-.storage}/workshop/${APP_ID:-107410}"
+          subpath: "${MOD_STORAGE_DIR:-.storage}/workshop"
 
     environment:
       APP_ID: "${APP_ID:-107410}"

@@ -21,7 +21,6 @@ services:
 
     volumes:
       # Klucze SSH
-      # TODO: dodać bezpieczne rozwiązanie do automatycznego dodawania authorized_keys
       - authorized_keys:/root/.ssh:ro
 
       # Konfiguracja
