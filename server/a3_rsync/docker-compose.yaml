@@ -8,18 +8,20 @@ services:
       tags:
         - a3-rsync-ssh-server:latest
 
-    pull_policy: build
+    pull_policy: never
 
     container_name: rsync-ssh-server
-    restart: unless-stopped
+    restart: "no"
+
+    environment:
+      AUTO_STOP_AFTER_SECONDS: "1200"
 
     ports:
       - "8873:8873"
 
     volumes:
       # Klucze SSH
-      # TODO: dodać bezpieczne rozwiązanie do automatycznego dodawania authorized_keys
-      # - /home/debian/klucze:/root/.ssh:ro
+      - authorized_keys:/root/.ssh:ro
 
       # Konfiguracja
       - arma3_armada_config:/data/armada/config
@@ -40,38 +42,52 @@ services:
       - a3_orange:/arma3/server/orange
 
 volumes:
+  # Konfiguracja
   arma3_armada_config:
     name: arma3_armada_config
-
   arma3_phantom_venom_config:
     name: arma3_phantom_venom_config
-
   arma3_spartan_config:
     name: arma3_spartan_config
-
   arma3_rc_config:
     name: arma3_rc_config
 
+  a3_server:
+    name: a3_server
+  # Pliki misji
   a3_missions:
     name: a3_missions
 
   a3_addons:
     name: a3_addons
 
+  # DLC
   a3_argo:
     name: a3_argo
-
   a3_enoch:
     name: a3_enoch
-
   a3_expansion:
     name: a3_expansion
-
   a3_heli:
     name: a3_heli
-
   a3_jets:
     name: a3_jets
-
   a3_orange:
     name: a3_orange
+  a3_preset:
+    name: a3_preset
+
+  #mod DL
+  a3_raw_mods:
+    name: a3_raw_mods
+  smalletters_mods:
+    name: smalletters_mods
+
+  # File Browser
+  filebrowser_database:
+    name: filebrowser_database
+  filebrowser_config:
+    name: filebrowser_config
+
+  authorized_keys:
+    name: authorized_keys

@@ -29,8 +29,18 @@ services:
       - a3_jets:/arma3/jets
       - a3_orange:/arma3/orange
 
-      - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
-      - smalletters_mods:/arma3/servermods
+      - type: volume
+        source: a3_mod_storage
+        target: /arma3/servermods
+        read_only: true
+        volume:
+          nocopy: true
+
+    depends_on:
+      mod_storage_init:
+        condition: service_completed_successfully
+      mod_downloader:
+        condition: service_healthy
 
     environment:
       ARMA_BINARY: "${ARMA_BINARY}"
@@ -49,29 +59,108 @@ services:
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
       STEAM_USER: "${STEAM_ACCOUNT}"
 
+  mod_storage_init:
+    image: alpine:3.22
+    container_name: a3_mod_storage_init
+    restart: "no"
+
+    environment:
+      APP_ID: "${APP_ID:-107410}"
+      MOD_STORAGE_DIR: "${MOD_STORAGE_DIR:-.storage}"
+
+    volumes:
+      - type: volume
+        source: a3_mod_storage
+        target: /storage
+        volume:
+          nocopy: true
+
+    entrypoint:
+      - /bin/sh
+      - -eu
+      - -c
+      - |
+        workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/content/$${APP_ID}"
+        migration_marker_v1="/storage/$${MOD_STORAGE_DIR}/.layout-v1"
+        migration_marker_v2="/storage/$${MOD_STORAGE_DIR}/.layout-v2"
+
+        # One-time migration: root to v1 (.storage/workshop/107410)
+        if [ ! -f "$${migration_marker_v1}" ]; then
+          old_workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/$${APP_ID}"
+          mkdir -p "$${old_workshop_dir}"
+          echo "Migracja istniejących modów do $${old_workshop_dir}"
+
+          find /storage \
+            -mindepth 1 \
+            -maxdepth 1 \
+            ! -name "$${MOD_STORAGE_DIR}" \
+            -exec mv {} "$${old_workshop_dir}/" \;
+
+          touch "$${migration_marker_v1}"
+        fi
+
+        # One-time migration: v1 to v2 (.storage/workshop/content/107410)
+        if [ ! -f "$${migration_marker_v2}" ]; then
+          echo "Migracja z układu v1 do v2 (wprowadzenie podkatalogu content)"
+          old_workshop_dir="/storage/$${MOD_STORAGE_DIR}/workshop/$${APP_ID}"
+          if [ -d "$${old_workshop_dir}" ]; then
+            mkdir -p "/storage/$${MOD_STORAGE_DIR}/workshop/content"
+            mv "$${old_workshop_dir}" "/storage/$${MOD_STORAGE_DIR}/workshop/content/"
+          else
+            mkdir -p "$${workshop_dir}"
+          fi
+          touch "$${migration_marker_v2}"
+        fi
+
   mod_downloader:
     image: steamcmd/steamcmd:ubuntu-22
     platform: linux/amd64
     container_name: mod_dl
     restart: unless-stopped
     init: true
+    depends_on:
+     mod_storage_init:
+       condition: service_completed_successfully
 
     working_dir: /work
 
     volumes:
       - ./:/work:ro
       - a3_preset:/data/preset
-      - a3_raw_mods:/root/Steam/steamapps/workshop/content/107410
-      - smalletters_mods:/arma3/servermods
+
+      # Cały przenośny wolumen z magazynem i symlinkami
+      - type: volume
+        source: a3_mod_storage
+        target: /arma3/servermods
+        volume:
+          nocopy: true
+
+      # SteamCMD zapisuje bezpośrednio do podkatalogu tego samego wolumenu
+      - type: volume
+        source: a3_mod_storage
+        target: /root/Steam/steamapps/workshop
+        volume:
+          nocopy: true
+          subpath: "${MOD_STORAGE_DIR:-.storage}/workshop"
 
     environment:
       APP_ID: "${APP_ID:-107410}"
       PRESET_DIR: "${PRESET_DIR:-/data/preset}"
       WORKSHOP_DIR: "${WORKSHOP_DIR:-/root/Steam/steamapps/workshop/content/107410}"
       TARGET_DIR: "${TARGET_DIR:-/arma3/servermods}"
+      MOD_STORAGE_DIR: "${MOD_STORAGE_DIR:-.storage}"
       STEAMCMD: "${STEAMCMD:-steamcmd}"
       STEAM_LOGIN: "${STEAM_ACCOUNT}"
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /arma3/servermods/.mods-ready
+      interval: 10s
+      timeout: 3s
+      retries: 720
+      start_period: 10s
+
 
     entrypoint:
       - /bin/bash
@@ -85,32 +174,17 @@ services:
           sleep 8h
         done
 
-  fix_preset_permissions:
-    image: alpine:3.20
-    container_name: fix_a3_preset_permissions
-    restart: "no"
-    user: "0:0"
-    command: >
-      sh -c "mkdir -p /preset &&
-             chown -R ${PUID:-1000}:${PGID:-1000} /preset &&
-             chmod -R u+rwX,g+rwX /preset"
-    volumes:
-      - a3_preset:/preset
   filebrowser:
     image: filebrowser/filebrowser:v2-s6
     container_name: filebrowser
     restart: unless-stopped
 
-    depends_on:
-      fix_preset_permissions:
-        condition: service_completed_successfully
-
     ports:
       - "8088:80"
 
     environment:
-      PUID: "${PUID:-1000}"
-      PGID: "${PGID:-1000}"
+      PUID: "0"
+      PGID: "0"
 
     volumes:
       - a3_missions:/srv/misje
@@ -151,11 +225,8 @@ volumes:
   a3_preset:
     name: a3_preset
 
-  a3_raw_mods:
-    name: a3_raw_mods
-
-  smalletters_mods:
-    name: smalletters_mods
+  a3_mod_storage:
+      name: a3_raw_mods
 
   filebrowser_database:
     name: filebrowser_database
