@@ -1283,20 +1283,20 @@ SFSM_cptrPlrEscTime = 7;
 
 // DCO soldier FSM | Close Quarter Combat (CQB)
 SFSM_clearHouse = true;
-force SFSM_CQBdistance = 70;
-force SFSM_CQBunitCap = 4;
+force force SFSM_CQBdistance = 70;
+force force SFSM_CQBunitCap = 4;
 SFSM_houseDemolition = true;
 SFSM_rpgHouse = true;
 
 // DCO soldier FSM | Evasion Attack
-SFSM_allowEvasionAttack = true;
-SFSM_EA_feintPushLeft = false;
-SFSM_EA_feintPushRight = false;
+force SFSM_allowEvasionAttack = true;
+force force SFSM_EA_feintPushLeft = false;
+force force SFSM_EA_feintPushRight = false;
 SFSM_EA_flankLeft = true;
 SFSM_EA_flankRight = true;
-SFSM_EA_ZigZag = false;
-force SFSM_evasionAttackCoolDown = 5;
-force SFSM_evasionAttackSpeed = 1.2;
+force force SFSM_EA_ZigZag = false;
+force force SFSM_evasionAttackCoolDown = 5;
+force force SFSM_evasionAttackSpeed = 1.2;
 
 // DCO soldier FSM | Fighting Positions (FIPO)
 FIPO_idleAnimations = "['Acts_Executioner_Squat', 'Acts_AidlPercMstpSlowWrflDnon_pissing', 'Acts_AidlPercMstpSlowWrflDnon_warmup03', 'Acts_AidlPercMstpSnonWnonDnon_warmup_7_loop', 'Acts_AidlPercMstpSnonWnonDnon_warmup_6_loop']";
