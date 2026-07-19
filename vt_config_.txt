@@ -1,3 +1,14 @@
+// A3TI
+force force A3TI_ACE_JAVELIN = false;
+force force A3TI_ALLOW_TANK_DRIVER = true;
+force force A3TI_ALLOW_VANILLA_TI = false;
+force force A3TI_ENABLE_ZEUS = false;
+force force A3TI_HD_VISION_FIGHTER = true;
+force force A3TI_HD_VISION_LANDVEH = true;
+force force A3TI_HD_VISION_SHIP = true;
+force force A3TI_HD_VISION_UAV = true;
+force force A3TI_REMOVE_FILMGRAIN_RHS = false;
+
 // ACE Advanced Ballistics
 force force ace_advanced_ballistics_ammoTemperatureEnabled = true;
 force force ace_advanced_ballistics_barrelLengthInfluenceEnabled = true;
@@ -1480,7 +1491,7 @@ force force diwako_dui_namelist_text_shadow = 2;
 force force diwako_dui_namelist_width = 215;
 force force diwako_dui_radar_ace_finger = true;
 force force diwako_dui_radar_ace_medic = true;
-diwako_dui_radar_always_show_player_number = false;
+diwako_dui_radar_always_show_player_number = true;
 force force diwako_dui_radar_always_show_unit_numbers = false;
 force force diwako_dui_radar_compassRangeCrew = 500;
 force diwako_dui_radar_compassRangeLimit = 50;
@@ -1545,6 +1556,7 @@ force force emr_main_yeetCoefficient = 1.4;
 
 // Fire support PLUS
 force FSPLUS_105mmTrainingShell = true;
+force FSPLUS_120MortarBarrage = true;
 force FSPLUS_122Rocket = true;
 force FSPLUS_122RocketBarrage = true;
 force FSPLUS_155Barrage = true;
@@ -1565,7 +1577,7 @@ force FSPLUS_JDAM = true;
 force FSPLUS_Napalm = true;
 force FSPLUS_Not230mmBarrage = true;
 force FSPLUS_RodsfromGod = true;
-force FSPLUS_Smoke_white = true;
+force FSPLUS_Smoke_white = false;
 force FSPLUS_SmokeBarrage = true;
 force FSPLUS_Thermobaric = true;
 force FSPLUS_WP = true;
@@ -2203,6 +2215,7 @@ force force zen_attributes_enableWaypointType = true;
 
 // Zeus Enhanced - Faction Filter
 zen_faction_filter_0_EMP_Greystone_PMC_OPFOR = true;
+zen_faction_filter_0_FIR_AWS_ENEMY_F = true;
 zen_faction_filter_0_LOP_AFR_OPF = true;
 zen_faction_filter_0_LOP_AM_OPF = true;
 zen_faction_filter_0_LOP_BH = true;

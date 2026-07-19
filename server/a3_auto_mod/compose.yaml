@@ -32,7 +32,7 @@ services:
       - type: volume
         source: a3_mod_storage
         target: /arma3/servermods
-        read_only: true
+        read_only: false
         volume:
           nocopy: true
 
