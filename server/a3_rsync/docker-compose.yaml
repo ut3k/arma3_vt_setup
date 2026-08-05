@@ -41,6 +41,12 @@ services:
       - a3_jets:/arma3/server/jets
       - a3_orange:/arma3/server/orange
 
+    logging:
+      driver: "local"
+      options:
+        max-size: "50m"
+        max-file: "1"
+
 volumes:
   # Konfiguracja
   arma3_armada_config:
