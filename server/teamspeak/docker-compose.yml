@@ -28,6 +28,12 @@ services:
     networks:
       - ts_network
 
+    logging:
+      driver: "local"
+      options:
+        max-size: "50m"
+        max-file: "1"
+
   db:
     image: mariadb:latest
     container_name: teamspeak_mariadb

@@ -100,6 +100,12 @@ services:
       STEAM_BRANCH_PASSWORD: ${STEAM_BRANCH_PASSWORD}
       STEAM_PASSWORD: ${STEAM_PASSWORD}
       STEAM_USER: ${STEAM_USER}
+    
+    logging:
+      driver: "local"
+      options:
+        max-size: "50m"
+        max-file: "1"
 
 volumes:
   arma3_armada_config:
