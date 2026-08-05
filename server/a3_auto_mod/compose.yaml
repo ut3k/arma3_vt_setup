@@ -58,6 +58,12 @@ services:
       STEAM_BRANCH_PASSWORD: "${STEAM_BRANCH_PASSWORD}"
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
       STEAM_USER: "${STEAM_ACCOUNT}"
+    
+    logging:
+      driver: "local"
+      options:
+        max-size: "50m"
+        max-file: "1"
 
   mod_storage_init:
     image: alpine:3.22
