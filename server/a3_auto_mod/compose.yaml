@@ -58,12 +58,12 @@ services:
       STEAM_BRANCH_PASSWORD: "${STEAM_BRANCH_PASSWORD}"
       STEAM_PASSWORD: "${STEAM_PASSWORD}"
       STEAM_USER: "${STEAM_ACCOUNT}"
-    
+
     logging:
       driver: "local"
       options:
         max-size: "50m"
-        max-file: "1"
+        #max-file: "1"
 
   mod_storage_init:
     image: alpine:3.22
@@ -125,8 +125,8 @@ services:
     restart: unless-stopped
     init: true
     depends_on:
-     mod_storage_init:
-       condition: service_completed_successfully
+      mod_storage_init:
+        condition: service_completed_successfully
 
     working_dir: /work
 
@@ -166,7 +166,6 @@ services:
       timeout: 3s
       retries: 720
       start_period: 10s
-
 
     entrypoint:
       - /bin/bash
@@ -232,7 +231,7 @@ volumes:
     name: a3_preset
 
   a3_mod_storage:
-      name: a3_raw_mods
+    name: a3_raw_mods
 
   filebrowser_database:
     name: filebrowser_database
