@@ -32,7 +32,8 @@ services:
       driver: "local"
       options:
         max-size: "50m"
-        max-file: "1"
+        #TODO: nie wie wiem co to robi ale nie działa
+        # max-file: "1"
 
   db:
     image: mariadb:latest
