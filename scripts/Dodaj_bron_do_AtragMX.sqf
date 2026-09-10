@@ -1,117 +1,130 @@
 private _unit = player;
-
 private _weapon = currentWeapon _unit;
-if (_weapon isEqualTo "") exitWith {
-    hint "Nie trzymasz żadnej broni.";
+private _magazine = currentMagazine _unit;
+if (_weapon isEqualTo "" || {_magazine isEqualTo ""}) exitWith {systemChat "No weapon or magazine";};
+
+private _ammo = getText (configFile >> "CfgMagazines" >> _magazine >> "ammo");
+if (_ammo isEqualTo "") exitWith {systemChat "No ammo class";};
+
+private _fnc_interpolate = {
+    params ["_x", "_xArray", "_yArray"];
+    private _count = count _xArray;
+    if (_count == 0) exitWith {0};
+    if (_count == 1) exitWith {_yArray select 0};
+    if (_x <= (_xArray select 0)) exitWith {_yArray select 0};
+    if (_x >= (_xArray select (_count - 1))) exitWith {_yArray select (_count - 1)};
+    private _i = 0;
+    while {_i < _count - 1 && {_x > (_xArray select (_i + 1))}} do {_i = _i + 1};
+    private _x0 = _xArray select _i;
+    private _x1 = _xArray select (_i + 1);
+    private _y0 = _yArray select _i;
+    private _y1 = _yArray select (_i + 1);
+    _y0 + (_y1 - _y0) * ((_x - _x0) / (_x1 - _x0 max 0.0001))
 };
 
-private _mag = currentMagazine _unit;
-if (_mag isEqualTo "") exitWith {
-    hint "Broń nie ma załadowanego magazynka.";
+private _initSpeed = getNumber (configFile >> "CfgMagazines" >> _magazine >> "initSpeed");
+if (_initSpeed <= 0) then {
+    _initSpeed = getNumber (configFile >> "CfgAmmo" >> _ammo >> "initSpeed");
 };
-
-private _ammo = getText (configFile >> "CfgMagazines" >> _mag >> "ammo");
-if (_ammo isEqualTo "") exitWith {
-    hint "Nie udało się ustalić klasy amunicji.";
-};
-
-private _ammoCfg = configFile >> "CfgAmmo" >> _ammo;
-private _weaponCfg = configFile >> "CfgWeapons" >> _weapon;
-
-private _weaponName = getText (_weaponCfg >> "displayName");
-private _magName = getText (configFile >> "CfgMagazines" >> _mag >> "displayName");
-
-private _mass = getNumber (_ammoCfg >> "ACE_bulletMass");
-private _diameter = getNumber (_ammoCfg >> "ACE_caliber");
-private _airFriction = getNumber (_ammoCfg >> "airFriction");
-private _dragModel = getNumber (_ammoCfg >> "ACE_dragModel");
-private _atmosphere = getText (_ammoCfg >> "ACE_standardAtmosphere");
-
-private _bcArray = getArray (_ammoCfg >> "ACE_ballisticCoefficients");
-private _bc = if ((count _bcArray) > 0) then {
-    _bcArray select 0
+private _weaponInitSpeed = getNumber (configFile >> "CfgWeapons" >> _weapon >> "initSpeed");
+if (_weaponInitSpeed > 0) then {
+    _initSpeed = _weaponInitSpeed;
 } else {
-    0
+    if (_weaponInitSpeed < 0) then {
+        _initSpeed = _initSpeed * abs _weaponInitSpeed;
+    };
+};
+private _baseMV = _initSpeed;
+
+private _barrelLengths = getArray (configFile >> "CfgAmmo" >> _ammo >> "ACE_barrelLengths");
+private _muzzleVelocities = getArray (configFile >> "CfgAmmo" >> _ammo >> "ACE_muzzleVelocities");
+private _weaponBarrelLength = getNumber (configFile >> "CfgWeapons" >> _weapon >> "ACE_barrelLength");
+if (_weaponBarrelLength <= 0) then {_weaponBarrelLength = 400};
+
+if ((count _barrelLengths > 0) && {(count _muzzleVelocities) isEqualTo (count _barrelLengths)}) then {
+    private _barrelMV = [_weaponBarrelLength, _barrelLengths, _muzzleVelocities] call _fnc_interpolate;
+    _baseMV = _baseMV + (_barrelMV - _baseMV);
 };
 
-private _mvArray = getArray (_ammoCfg >> "ACE_muzzleVelocities");
+private _tempShifts = getArray (configFile >> "CfgAmmo" >> _ammo >> "ACE_ammoTempMuzzleVelocityShifts");
+private _hasTempData = (count _tempShifts >= 11);
+private _temps = [-15, 0, 10, 15, 25, 30, 35];
+private _mvTable = [];
+{
+    private _t = _x;
+    private _shift = 0;
+    if (_hasTempData) then {
+        private _idx = ((_t + 15) / 5) max 0 min 10;
+        private _i0 = floor _idx;
+        private _i1 = ceil _idx;
+        private _s0 = _tempShifts select _i0;
+        private _s1 = _tempShifts select _i1;
+        _shift = _s0 + (_s1 - _s0) * (_idx - _i0);
+    };
+    _mvTable pushBack [_t, _baseMV + _shift];
+} forEach _temps;
 
-private _mv = if ((count _mvArray) > 0) then {
-    _mvArray select ((count _mvArray) - 1)
-} else {
-    getNumber (configFile >> "CfgMagazines" >> _mag >> "initSpeed")
-};
+private _cal = getNumber (configFile >> "CfgAmmo" >> _ammo >> "ACE_caliber");
+if (_cal <= 0) then {_cal = 7.62};
+private _massG = getNumber (configFile >> "CfgAmmo" >> _ammo >> "ACE_bulletMass");
+private _grains = if (_massG > 0) then {round (_massG * 15.432)} else {0};
+private _display = getText (configFile >> "CfgMagazines" >> _magazine >> "displayName");
+if (_display isEqualTo "") then {_display = _ammo};
+_display = toUpper _display;
+private _profileName = format ["%1.%2.%3", round (_cal * 10) / 10, _grains, _display];
+if (count _profileName > 20) then {_profileName = _profileName select [0, 20]};
 
-private _twist = getNumber (_weaponCfg >> "ACE_barrelTwist");
+private _bulletMass = _massG;
+if (_bulletMass <= 0) then {_bulletMass = 10};
+private _twist = getNumber (configFile >> "CfgWeapons" >> _weapon >> "ACE_barrelTwist");
+if (_twist <= 0) then {_twist = 254};
+private _bc = 0.4;
+private _bcs = getArray (configFile >> "CfgAmmo" >> _ammo >> "ACE_ballisticCoefficients");
+if (count _bcs > 0) then {_bc = _bcs select 0};
+private _dragModel = getNumber (configFile >> "CfgAmmo" >> _ammo >> "ACE_dragModel");
+if (_dragModel <= 0) then {_dragModel = 1};
+private _airFriction = getNumber (configFile >> "CfgAmmo" >> _ammo >> "airFriction");
+private _atmosphere = getText (configFile >> "CfgAmmo" >> _ammo >> "ACE_standardAtmosphere");
+if (_atmosphere isEqualTo "") then {_atmosphere = "ICAO"};
+private _boreHeight = 3.81;
 
-if (_twist <= 0) then {
-    _twist = 25.4;
-};
-
-private _profileName = format [
-    "%1 / %2",
-    _weaponName,
-    _magName
-];
-
-private _profile = [
-    _profileName,        // 0 Name
-    _mv,                 // 1 Muzzle Velocity
-    100,                 // 2 Zero Range
-    0,                   // 3 Scope Base Angle
-    _airFriction,        // 4 Air Friction
-    7.62,                // 5 Bore Height
-    0,                   // 6 Scope Unit
-    2,                   // 7 Click Unit
-    10,                  // 8 Click Number
-    120,                 // 9 Maximum Elevation
-    0,                   // 10 Dialed Elevation
-    0,                   // 11 Dialed Windage
-    _mass,                // 12 Bullet Mass
-    _diameter,            // 13 Bullet Diameter
-    _twist,               // 14 Rifle Twist
-    _bc,                  // 15 Ballistic Coefficient
-    _dragModel,           // 16 Drag Model
-    _atmosphere,          // 17 Atmosphere
-    [
-        [-15,_mv],
-        [0,_mv],
-        [10,_mv],
-        [15,_mv],
-        [25,_mv],
-        [30,_mv],
-        [35,_mv]
-    ],                    // 18 MV/Temp
-    [
-        [0,_bc],
-        [0,_bc],
-        [0,_bc],
-        [0,_bc],
-        [0,_bc],
-        [0,_bc],
-        [0,_bc]
-    ],                    // 19 BC/Distance
-    true                  // 20 Persistent
+private _preset = [
+    _profileName,
+    _baseMV,
+    100,
+    0,
+    _airFriction,
+    _boreHeight,
+    0,
+    2,
+    10,
+    120,
+    0,
+    0,
+    _bulletMass,
+    _cal,
+    _twist,
+    _bc,
+    _dragModel,
+    _atmosphere,
+    _mvTable,
+    [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]],
+    true
 ];
 
 if (isNil "ace_atragmx_gunList") then {
-    [] call ace_atragmx_fnc_initGunList;
+    systemChat "Open ATragMX once first";
+} else {
+    private _idx = -1;
+    {
+        if ((_x select 0) isEqualTo _profileName) exitWith {_idx = _forEachIndex};
+    } forEach ace_atragmx_gunList;
+    if (_idx >= 0) then {
+        ace_atragmx_gunList set [_idx, _preset];
+    } else {
+        ace_atragmx_gunList pushBack _preset;
+    };
+    profileNamespace setVariable ["ACE_ATragMX_gunList", ace_atragmx_gunList];
+    saveProfileNamespace;
+    systemChat format ["Added: %1 | baseMV %1 m/s | temp: %2", _profileName, _baseMV, if (_hasTempData) then {"YES"} else {"NO"}];
 };
-
-ace_atragmx_gunList pushBack _profile;
-
-profileNamespace setVariable [
-    "ACE_ATragMX_gunList",
-    ace_atragmx_gunList
-];
-
-saveProfileNamespace;
-
-hint format [
-    "Dodano do ATragMX:\n%1\n\nAmmo: %2\nMV: %3 m/s\nBC: %4\nDrag: G%5",
-    _profileName,
-    _ammo,
-    round _mv,
-    _bc,
-    _dragModel
-];
