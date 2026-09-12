@@ -34,12 +34,33 @@ private _fnc_interpolate = {
     _y0 + (_y1 - _y0) * ((_x - _x0) / ((_x1 - _x0) max 0.0001))
 };
 
+private _fnc_g7ToC1 = {
+    params ["_bcG7", "_velocity"];
+    private _mach = _velocity / 340.3;
+    private _g1M = [0,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.725,0.75,0.775,0.80,0.825,0.85,0.875,0.90,0.925,0.95,0.975,1.0,1.025,1.05,1.075,1.10,1.125,1.15,1.175,1.20,1.225,1.25,1.275,1.30,1.35,1.40,1.50,1.60,1.80,2.00,2.20,2.40,2.60,3.00,3.60,4.00,5.00];
+    private _g1C = [0.2629,0.2558,0.2487,0.2413,0.2344,0.2278,0.2214,0.2155,0.2104,0.2061,0.2032,0.2020,0.2034,0.2065,0.2122,0.2161,0.2207,0.2257,0.2313,0.2375,0.2443,0.2517,0.2597,0.2682,0.2772,0.2866,0.2960,0.3054,0.3145,0.3232,0.3313,0.3389,0.3458,0.3522,0.3580,0.3633,0.3681,0.3724,0.3763,0.3829,0.3884,0.3976,0.4053,0.4180,0.4284,0.4372,0.4448,0.4514,0.4626,0.4760,0.4838,0.5000];
+    private _g7C = [0.1198,0.1197,0.1196,0.1195,0.1194,0.1194,0.1194,0.1194,0.1194,0.1195,0.1196,0.1197,0.1198,0.1199,0.1201,0.1203,0.1205,0.1208,0.1215,0.1233,0.1268,0.1306,0.1352,0.1405,0.1464,0.1529,0.1598,0.1671,0.1743,0.1812,0.1876,0.1935,0.1987,0.2033,0.2074,0.2110,0.2142,0.2171,0.2196,0.2238,0.2270,0.2316,0.2348,0.2379,0.2397,0.2406,0.2409,0.2407,0.2394,0.2359,0.2334,0.2280];
+    private _cd1 = [_mach, _g1M, _g1C] call _fnc_interpolate;
+    private _cd7 = [_mach, _g1M, _g7C] call _fnc_interpolate;
+    _bcG7 * _cd1 / _cd7
+};
+
 private _initSpeed = getNumber (_magCfg >> "initSpeed");
 if (_initSpeed <= 0) then {
     _initSpeed = getNumber (_ammoCfg >> "initSpeed");
 };
 
 private _weaponInitSpeed = getNumber (_weaponCfg >> "initSpeed");
+private _muzzle = currentMuzzle _unit;
+private _muzzleCfg = if (_muzzle isEqualTo "" || {!isClass (_weaponCfg >> _muzzle)}) then {
+    _weaponCfg
+} else {
+    _weaponCfg >> _muzzle
+};
+private _muzzleInitSpeed = getNumber (_muzzleCfg >> "initSpeed");
+if (_muzzleInitSpeed != 0) then {
+    _weaponInitSpeed = _muzzleInitSpeed;
+};
 if (_weaponInitSpeed > 0) then {
     _initSpeed = _weaponInitSpeed;
 };
@@ -51,13 +72,16 @@ private _baseMV = _initSpeed;
 private _barrelLengths = getArray (_ammoCfg >> "ACE_barrelLengths");
 private _muzzleVelocities = getArray (_ammoCfg >> "ACE_muzzleVelocities");
 private _weaponBarrelLength = getNumber (_weaponCfg >> "ACE_barrelLength");
-
-if (_weaponBarrelLength <= 0) then {
-    _weaponBarrelLength = 400;
+private _muzzleBarrelLength = getNumber (_muzzleCfg >> "ACE_barrelLength");
+if (_muzzleBarrelLength > 0) then {
+    _weaponBarrelLength = _muzzleBarrelLength;
 };
 
 private _hasBarrelData = (count _barrelLengths > 0) && ((count _barrelLengths) isEqualTo (count _muzzleVelocities));
 if (_hasBarrelData) then {
+    if (_weaponBarrelLength <= 0) then {
+        _weaponBarrelLength = _barrelLengths select (count _barrelLengths - 1);
+    };
     _baseMV = [ _weaponBarrelLength, _barrelLengths, _muzzleVelocities ] call _fnc_interpolate;
 };
 
@@ -88,21 +112,55 @@ if (_bulletMass <= 0) then {
 
 private _grains = round (_bulletMass * 15.4323584);
 
-private _twistMm = getNumber (_weaponCfg >> "ACE_barrelTwist");
-if (_twistMm <= 0) then {
-    _twistMm = 254;
+private _twistRaw = getNumber (_weaponCfg >> "ACE_barrelTwist");
+private _twistCm = 25.4;
+private _twistSource = "default";
+if (_twistRaw > 0) then {
+    if (_twistRaw < 100) then {
+        _twistCm = _twistRaw * 2.54;
+        _twistSource = "inches";
+    } else {
+        _twistCm = _twistRaw / 10;
+        _twistSource = "mm";
+    };
 };
-private _twistCm = _twistMm / 10;
 
 private _bcs = getArray (_ammoCfg >> "ACE_ballisticCoefficients");
+private _bounds = getArray (_ammoCfg >> "ACE_velocityBoundaries");
+private _dragModel = getNumber (_ammoCfg >> "ACE_dragModel");
 private _bc = 0;
+private _c1Table = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
+private _bcSource = "none";
+
 if ((count _bcs) > 0) then {
     _bc = _bcs select 0;
-};
-
-private _dragModel = getNumber (_ammoCfg >> "ACE_dragModel");
-if (_dragModel <= 0) then {
-    _dragModel = 1;
+    if (_dragModel isEqualTo 7 && {_bc > 0}) then {
+        private _n = count _bcs;
+        if (_n > 1 && {(count _bounds) >= (_n - 1)}) then {
+            private _v = _baseMV;
+            private _bi = 0;
+            while { _bi < (_n - 1) && {_v < (_bounds select _bi)} } do {
+                _bi = _bi + 1;
+            };
+            _bc = _bcs select _bi;
+        };
+        private _ranges = [0,300,600,900,1200,1500,1800];
+        private _af = abs (getNumber (_ammoCfg >> "airFriction"));
+        if (_af <= 0) then { _af = 0.000357 };
+        private _v = _baseMV;
+        _c1Table = _ranges apply {
+            private _r = _x;
+            private _c1 = [_bc, _v] call _fnc_g7ToC1;
+            _v = _v * exp (-_af * _r);
+            [_r, _c1]
+        };
+        _bc = _c1Table select 0 select 1;
+        _dragModel = 1;
+        _bcSource = "G7 converted";
+    } else {
+        _dragModel = 1;
+        _bcSource = "native C1";
+    };
 };
 
 private _airFriction = getNumber (_ammoCfg >> "airFriction");
@@ -140,6 +198,7 @@ private _profileName = format [ "%1.%2.%3", round (_caliber * 10) / 10, _grains,
 if ((count _profileName) > 20) then {
     _profileName = _profileName select [0,20];
 };
+
 private _weaponIndex = 0;
 {
     if (_x isEqualTo _weapon) exitWith { _weaponIndex = _forEachIndex; };
@@ -160,11 +219,17 @@ if (_boreHeightCm <= 0) then {
     _boreHeightSource = "default";
 };
 
+private _zeroRange = 100;
+private _zeroTOF = _zeroRange / (_mvTable select 3 select 1);
+private _zeroDropM = 0.5 * 9.80665 * _zeroTOF * _zeroTOF;
+// SQF atan returns degrees already
+private _scopeBaseAngle = atan (_zeroDropM / _zeroRange);
+
 private _preset = [
     _profileName,
     _mvTable select 3 select 1,
-    100,
-    0,
+    _zeroRange,
+    _scopeBaseAngle,
     _airFriction,
     _boreHeightCm,
     0,
@@ -180,7 +245,7 @@ private _preset = [
     _dragModel,
     _atmosphere,
     _mvTable,
-    [ [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0] ],
+    _c1Table,
     true
 ];
 
@@ -208,9 +273,13 @@ private _tempStatus = if (_hasTempData) then { "YES" } else { "NO" };
 private _barrelStatus = if (_hasBarrelData) then { "YES" } else { "NO" };
 
 systemChat format [
-    "Added: %1 | MV15: %2 m/s | Bore: %3 in (%4 cm, %5) | Temp: %6 | Barrel: %7",
+    "Added: %1 | MV15: %2 m/s | BC: %3 (%4) | Twist: %5 cm (%6) | Bore: %7 in (%8, %9) | Temp: %10 | Barrel: %11",
     _profileName,
     round (_mvTable select 3 select 1),
+    round (_bc * 1000) / 1000,
+    _bcSource,
+    _twistCm,
+    _twistSource,
     round ((_boreHeightCm / 2.54) * 100) / 100,
     _boreHeightCm,
     _boreHeightSource,
