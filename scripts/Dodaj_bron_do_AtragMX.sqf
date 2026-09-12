@@ -46,21 +46,15 @@ private _fnc_g7ToC1 = {
 };
 
 private _initSpeed = getNumber (_magCfg >> "initSpeed");
+private _initSpeedWarning = "";
 if (_initSpeed <= 0) then {
     _initSpeed = getNumber (_ammoCfg >> "initSpeed");
+    if (_initSpeed <= 0) then {
+        _initSpeedWarning = " | WARNING: no initSpeed on magazine or ammo";
+    };
 };
 
 private _weaponInitSpeed = getNumber (_weaponCfg >> "initSpeed");
-private _muzzle = currentMuzzle _unit;
-private _muzzleCfg = if (_muzzle isEqualTo "" || {!isClass (_weaponCfg >> _muzzle)}) then {
-    _weaponCfg
-} else {
-    _weaponCfg >> _muzzle
-};
-private _muzzleInitSpeed = getNumber (_muzzleCfg >> "initSpeed");
-if (_muzzleInitSpeed != 0) then {
-    _weaponInitSpeed = _muzzleInitSpeed;
-};
 if (_weaponInitSpeed > 0) then {
     _initSpeed = _weaponInitSpeed;
 };
@@ -72,16 +66,15 @@ private _baseMV = _initSpeed;
 private _barrelLengths = getArray (_ammoCfg >> "ACE_barrelLengths");
 private _muzzleVelocities = getArray (_ammoCfg >> "ACE_muzzleVelocities");
 private _weaponBarrelLength = getNumber (_weaponCfg >> "ACE_barrelLength");
-private _muzzleBarrelLength = getNumber (_muzzleCfg >> "ACE_barrelLength");
-if (_muzzleBarrelLength > 0) then {
-    _weaponBarrelLength = _muzzleBarrelLength;
+
+private _barrelWarning = "";
+if (_weaponBarrelLength <= 0) then {
+    _weaponBarrelLength = 400;
+    _barrelWarning = " | WARNING: no ACE_barrelLength on weapon, using 400mm default";
 };
 
 private _hasBarrelData = (count _barrelLengths > 0) && ((count _barrelLengths) isEqualTo (count _muzzleVelocities));
 if (_hasBarrelData) then {
-    if (_weaponBarrelLength <= 0) then {
-        _weaponBarrelLength = _barrelLengths select (count _barrelLengths - 1);
-    };
     _baseMV = [ _weaponBarrelLength, _barrelLengths, _muzzleVelocities ] call _fnc_interpolate;
 };
 
@@ -112,47 +105,45 @@ if (_bulletMass <= 0) then {
 
 private _grains = round (_bulletMass * 15.4323584);
 
-private _twistRaw = getNumber (_weaponCfg >> "ACE_barrelTwist");
-private _twistCm = 25.4;
-private _twistSource = "default";
-if (_twistRaw > 0) then {
-    if (_twistRaw < 100) then {
-        _twistCm = _twistRaw * 2.54;
-        _twistSource = "inches";
-    } else {
-        _twistCm = _twistRaw / 10;
-        _twistSource = "mm";
-    };
+private _twistMm = getNumber (_weaponCfg >> "ACE_barrelTwist");
+private _twistWarning = "";
+if (_twistMm <= 0) then {
+    _twistMm = 254;
+    _twistWarning = " | WARNING: no ACE_barrelTwist on weapon, using 254mm default";
 };
+private _twistCm = _twistMm / 10;
 
 private _bcs = getArray (_ammoCfg >> "ACE_ballisticCoefficients");
 private _bounds = getArray (_ammoCfg >> "ACE_velocityBoundaries");
-private _dragModel = getNumber (_ammoCfg >> "ACE_dragModel");
 private _bc = 0;
-private _c1Table = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]];
-private _bcSource = "none";
-
 if ((count _bcs) > 0) then {
     _bc = _bcs select 0;
-    if (_dragModel isEqualTo 7 && {_bc > 0}) then {
-        private _n = count _bcs;
-        if (_n > 1 && {(count _bounds) >= (_n - 1)}) then {
-            private _v = _baseMV;
-            private _bi = 0;
-            while { _bi < (_n - 1) && {_v > (_bounds select _bi)} } do {
-                _bi = _bi + 1;
-            };
-            _bc = _bcs select _bi;
+};
+
+private _dragModel = getNumber (_ammoCfg >> "ACE_dragModel");
+if (_dragModel <= 0) then {
+    _dragModel = 1;
+};
+
+private _bcSource = "native C1";
+private _c1Table = [ [0,0], [0,0], [0,0], [0,0], [0,0], [0,0], [0,0] ];
+
+if (_dragModel isEqualTo 7 && {_bc > 0}) then {
+    private _n = count _bcs;
+    if (_n > 1 && {(count _bounds) >= (_n - 1)}) then {
+        private _v = _baseMV;
+        private _bi = 0;
+        while { _bi < (_n - 1) && {_v > (_bounds select _bi)} } do {
+            _bi = _bi + 1;
         };
-        // Leave _c1Table zeroed: ATragMX then simulates drag from the preset's
-        // airFriction (game physics), matching what ACE AB actually does.
-        // Filling a converted C1 table makes ATragMX use real-world G1 drag,
-        // which diverges from the game badly at long range.
+        _bc = _bcs select _bi;
+    };
+    _bc = [_bc, _baseMV] call _fnc_g7ToC1;
+    _dragModel = 1;
+    _bcSource = "G7->C1 converted (C1 table zeroed, airFriction used)";
+} else {
+    if ((count _bcs) > 0) then {
         _dragModel = 1;
-        _bcSource = "G7 (C1 table zeroed, airFriction used)";
-    } else {
-        _dragModel = 1;
-        _bcSource = "native C1";
     };
 };
 
@@ -191,7 +182,6 @@ private _profileName = format [ "%1.%2.%3", round (_caliber * 10) / 10, _grains,
 if ((count _profileName) > 20) then {
     _profileName = _profileName select [0,20];
 };
-
 private _weaponIndex = 0;
 {
     if (_x isEqualTo _weapon) exitWith { _weaponIndex = _forEachIndex; };
@@ -212,17 +202,11 @@ if (_boreHeightCm <= 0) then {
     _boreHeightSource = "default";
 };
 
-private _zeroRange = 100;
-private _zeroTOF = _zeroRange / (_mvTable select 3 select 1);
-private _zeroDropM = 0.5 * 9.80665 * _zeroTOF * _zeroTOF;
-// SQF atan returns degrees already
-private _scopeBaseAngle = atan (_zeroDropM / _zeroRange);
-
 private _preset = [
     _profileName,
     _mvTable select 3 select 1,
-    _zeroRange,
-    _scopeBaseAngle,
+    100,
+    0,
     _airFriction,
     _boreHeightCm,
     0,
@@ -259,6 +243,12 @@ if (_idx >= 0) then {
     ace_atragmx_gunList pushBack _preset;
 };
 
+if (!isNil "ace_atragmx_currentGun" && {!isNil "ace_atragmx_workingMemory"} && {ace_atragmx_currentGun isEqualTo _idx}) then {
+    ace_atragmx_workingMemory = +_preset;
+    if (!isNil "ace_atragmx_update_gun") then { [] call ace_atragmx_update_gun; };
+    if (!isNil "ace_atragmx_update_gun_ammo_data") then { [] call ace_atragmx_update_gun_ammo_data; };
+};
+
 profileNamespace setVariable [ "ACE_ATragMX_gunList", ace_atragmx_gunList ];
 saveProfileNamespace;
 
@@ -266,16 +256,17 @@ private _tempStatus = if (_hasTempData) then { "YES" } else { "NO" };
 private _barrelStatus = if (_hasBarrelData) then { "YES" } else { "NO" };
 
 systemChat format [
-    "Added: %1 | MV15: %2 m/s | BC: %3 (%4) | Twist: %5 cm (%6) | Bore: %7 in (%8, %9) | Temp: %10 | Barrel: %11",
+    "Added: %1 | MV15: %2 m/s | BC: %3 (%4) | Bore: %5 in (%6 cm, %7) | Temp: %8 | Barrel: %9%10%11%12",
     _profileName,
     round (_mvTable select 3 select 1),
     round (_bc * 1000) / 1000,
     _bcSource,
-    _twistCm,
-    _twistSource,
     round ((_boreHeightCm / 2.54) * 100) / 100,
     _boreHeightCm,
     _boreHeightSource,
     _tempStatus,
-    _barrelStatus
+    _barrelStatus,
+    _barrelWarning,
+    _twistWarning,
+    _initSpeedWarning
 ];
