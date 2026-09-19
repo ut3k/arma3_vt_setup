@@ -241,6 +241,7 @@ if (_idx >= 0) then {
     ace_atragmx_gunList set [_idx,_preset];
 } else {
     ace_atragmx_gunList pushBack _preset;
+    _idx = (count ace_atragmx_gunList) - 1;
 };
 
 if (!isNil "ace_atragmx_currentGun" && {!isNil "ace_atragmx_workingMemory"} && {ace_atragmx_currentGun isEqualTo _idx}) then {
