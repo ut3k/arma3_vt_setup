@@ -296,6 +296,7 @@ ace_interact_menu_more__acre_sys_zeus_remoteEars = false;
 ace_interact_menu_more__KAT_Equipment = false;
 ace_interact_menu_more__Medical = false;
 ace_interact_menu_more__SwitchToCamera = false;
+ace_interact_menu_more__vtx_detachHook = false;
 
 // ACE Interaction Menu (Self) - Move to Root
 ace_interact_menu_moveToRoot__ace_csw__ace_csw_placeTripod = false;
@@ -369,8 +370,11 @@ ace_interact_menu_moveToRoot__ACE_Equipment__bocr_main_swap = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__CBRN_ChangeGasMaskFilter = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__CBRN_CheckGasMaskDur = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__CBRN_DuctTape_RepairMask = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__MSS_phoneOpen = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__PHEN_CBRN_putMaskOn_SELF = false;
 ace_interact_menu_moveToRoot__ACE_Equipment__PHEN_CBRN_putMaskOn_SELF_Off = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__uh60_jvmf_tablet = false;
+ace_interact_menu_moveToRoot__ACE_Equipment__vtx_stretcher_1 = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Cellphone = false;
 ace_interact_menu_moveToRoot__ACE_Explosives__ACE_Place = false;
 ace_interact_menu_moveToRoot__ace_gestures__ace_gestures_Advance = false;
@@ -1130,8 +1134,6 @@ force CBRN_factionMask_CIV_IDAP_F = "";
 force CBRN_factionMask_EMP_Greystone_PMC_Blufor = "";
 force CBRN_factionMask_EMP_Greystone_PMC_OPFOR = "";
 force CBRN_factionMask_Expansion_Mod_Gendarmerie_CBRN_Div = "";
-force CBRN_factionMask_FIR_AWS_ENEMY_F = "";
-force CBRN_factionMask_FIR_AWS_FRND_F = "";
 force CBRN_factionMask_ibr_LartaFac = "";
 force CBRN_factionMask_IND_C_F = "";
 force CBRN_factionMask_IND_E_F = "";
@@ -1171,6 +1173,10 @@ force CBRN_factionMask_LOP_UKR = "";
 force CBRN_factionMask_LOP_UN = "";
 force CBRN_factionMask_LOP_US = "";
 force CBRN_factionMask_LOP_UVF = "";
+force CBRN_factionMask_min_rf = "";
+force CBRN_factionMask_min_rf_desert = "";
+force CBRN_factionMask_min_rf_pacific = "";
+force CBRN_factionMask_min_rf_winter = "";
 force CBRN_factionMask_OPF_F = "";
 force CBRN_factionMask_OPF_G_F = "";
 force CBRN_factionMask_OPF_GEN_F = "";
@@ -1251,6 +1257,133 @@ cba_optics_usePipOptics = true;
 cba_quicktime_qteShorten = false;
 cba_ui_notifyLifetime = 4;
 cba_ui_StorePasswords = 1;
+
+// DCO soldier FSM | 1.48
+SFSM_BFFknowledgeType = "one side";
+SFSM_DebugType = "curator";
+SFSM_disablefipo_module = false;
+SFSM_globalUD = false;
+force SFSM_KnowledgeToFight = 0.1;
+SFSM_noRubber = false;
+SFSM_simpleBff = true;
+SFSM_spawnBffActions = true;
+SFSM_storeMoraleData = false;
+
+// DCO soldier FSM | Actions
+SFSM_audioFeedbackType = "voice";
+SFSM_emergencyRearm = true;
+force SFSM_reactFireCoolDown = 180;
+SFSM_throwBackGrenade = true;
+
+// DCO soldier FSM | Capture
+SFSM_bombOnCapture = 0.2;
+SFSM_captiveAutoDeath = -1;
+SFSM_captureAbuseProb = 0.5;
+SFSM_captureExecProb = 1;
+SFSM_captureExplosive = "grenade";
+SFSM_captureTargets = "Everyone";
+SFSM_cptrAbuseProbPlr = 1;
+SFSM_cptrExecProbPlr = 0.9;
+SFSM_cptrPlrEscProb = 0.5;
+SFSM_cptrPlrEscTime = 7;
+
+// DCO soldier FSM | Close Quarter Combat (CQB)
+SFSM_clearHouse = true;
+force force SFSM_CQBdistance = 70;
+force force SFSM_CQBunitCap = 4;
+SFSM_houseDemolition = true;
+SFSM_rpgHouse = true;
+
+// DCO soldier FSM | Evasion Attack
+force SFSM_allowEvasionAttack = true;
+force force SFSM_EA_feintPushLeft = false;
+force force SFSM_EA_feintPushRight = false;
+SFSM_EA_flankLeft = true;
+SFSM_EA_flankRight = true;
+force force SFSM_EA_ZigZag = false;
+force force SFSM_evasionAttackCoolDown = 5;
+force force SFSM_evasionAttackSpeed = 1.2;
+
+// DCO soldier FSM | Fighting Positions (FIPO)
+FIPO_idleAnimations = "['Acts_Executioner_Squat', 'Acts_AidlPercMstpSlowWrflDnon_pissing', 'Acts_AidlPercMstpSlowWrflDnon_warmup03', 'Acts_AidlPercMstpSnonWnonDnon_warmup_7_loop', 'Acts_AidlPercMstpSnonWnonDnon_warmup_6_loop']";
+SFSM_allowFipoTeleport = true;
+SFSM_fipoGetInDistance = 70;
+SFSM_fipoKnockOutTime = 120;
+SFSM_playerSpotTeleportDist = 200;
+SFSM_playerSquadFipo = false;
+
+// DCO soldier FSM | Headless Client
+force PR_Allow_HC = false;
+force PR_HC1 = "HC";
+force PR_Use_HC = false;
+
+// DCO soldier FSM | Medical
+SFSM_ACE_Revive = true;
+SFSM_dragWounded = true;
+SFSM_EmergencyHealing = "legs-only";
+force SFSM_maxDragDistance = 40;
+force SFSM_medicSearchDistance = 100;
+force SFSM_minEnemyDistForHealing = 0;
+
+// DCO soldier FSM | Movement
+SFSM_allowDodging = true;
+SFSM_allowEvasion = true;
+SFSM_allowFlinching = true;
+SFSM_breakCoverOnHit = true;
+force SFSM_DodgeCoolDown = 10;
+force SFSM_DodgeDistance = 60;
+SFSM_dodgeIndoors = true;
+force SFSM_DodgeTimer = 40;
+SFSM_ExcludeZcommand = false;
+force SFSM_explosionCoverRad = 70;
+force SFSM_FlinchCoolDown = 5;
+SFSM_flinchStopDodge = false;
+force SFSM_maxSprinters = 15;
+SFSM_noCoverPanic = false;
+force SFSM_panicCoef = 0.5;
+SFSM_PlayerGrpDodge = false;
+force SFSM_RpsDodgeTrigger = 4;
+force SFSM_sprintSpeed = 1.2;
+force SFSM_stayCoverPosTime = 20;
+
+// DCO soldier FSM | Overrun
+SFSM_allowPanic = true;
+SFSM_allowSurrender = true;
+SFSM_overRun = true;
+SFSM_overRunDistance = 40;
+SFSM_playerSquadOverRun = true;
+
+// DCO soldier FSM | Player Options
+SFSM_autoStanceAction = true;
+SFSM_autoStanceEnabled = true;
+SFSM_buddyHeal = true;
+SFSM_buddyRearm = true;
+
+// DCO soldier FSM | Sound Reaction
+force SFSM_shotDistanceAss = 400;
+force SFSM_shotDistanceDef = 300;
+force SFSM_shotDistanceMac = 600;
+force SFSM_shotDistanceSil = 100;
+force SFSM_shotDistanceSni = 800;
+
+// DCO soldier FSM | Specialists
+SFSM_AtSpecHuntVehicles = true;
+SFSM_disableSpecialists = "player-squads";
+force SFSM_huntCooldown = 10;
+SFSM_marksmanFSM = true;
+force SFSM_maxAts = 4;
+force SFSM_maxHuntTime = 300;
+force SFSM_maxMgs = 4;
+SFSM_mgSuppression = true;
+force SFSM_specRegroupDist = 150;
+
+// DCO soldier FSM | Vehicles
+force SFSM_hearingDistance = 250;
+SFSM_hearingHide = true;
+SFSM_hideFromVehicles = true;
+force SFSM_hidingTimeOut = 30;
+SFSM_hijackVehicles = "action";
+force SFSM_turretLeaderDist = 40;
 
 // DUI - Squad Radar - Indicators
 force force diwako_dui_indicators_crew_range_enabled = false;
@@ -1468,54 +1601,6 @@ FPV_DefaultText = "CROCUS";
 force FPV_isUavCaptive = true;
 force FPV_MaxFlightDistance = 4000;
 
-// GRAD Civilians
-grad_civs_activities_panicCooldown = "[15, 120, 240]";
-force grad_civs_cars_animalTransportChance = 0.4;
-force grad_civs_cars_animalTransportVehicles = "";
-force grad_civs_cars_automaticVehicleGroupSize = true;
-grad_civs_cars_globalSpeedLimit = 50;
-grad_civs_cars_townSpeedLimit = 30;
-force grad_civs_cars_vehicles = "[""C_Van_01_fuel_F"",""C_Hatchback_01_F"",""C_Truck_02_fuel_F"",""C_Truck_02_covered_F"",""C_Offroad_01_F"",""C_SUV_01_F"",""C_Van_01_transport_F"",""C_Van_01_box_F""]";
-grad_civs_diagnostics_showFps = false;
-grad_civs_diagnostics_showInfoLine = false;
-grad_civs_diagnostics_showMisc = false;
-grad_civs_diagnostics_showOnMap = false;
-grad_civs_diagnostics_showPinkArrows = false;
-grad_civs_diagnostics_showSpawnAttempts = false;
-grad_civs_diagnostics_showSpeedLimitsOnMap = false;
-force grad_civs_gta_enabled = true;
-force grad_civs_lifecycle_civClasses = "C_Man_1";
-force grad_civs_lifecycle_cleanupCorpses = true;
-force grad_civs_lifecycle_minCivOwnerFps = 30;
-grad_civs_lifecycle_minCivUpdateTime = 3;
-force grad_civs_lifecycle_minServerFps = 40;
-force grad_civs_lifecycle_smMultiplicator = 1;
-force grad_civs_lifecycle_spawnCandidateHeightLimit = 200;
-force grad_civs_lifecycle_spawnCandidateLimitEnabled = true;
-force grad_civs_lifecycle_spawnCandidateSpeedLimit = 100;
-force grad_civs_lifecycle_spawnOnlyWithPlayers = true;
-force grad_civs_lifecycle_spawnRate = 0.5;
-force grad_civs_loadout_backpackProbability = 0.5;
-force grad_civs_loadout_backpacks = "[]";
-force grad_civs_loadout_clothes = "[]";
-force grad_civs_loadout_faces = "[]";
-force grad_civs_loadout_goggles = "[]";
-force grad_civs_loadout_headgear = "[]";
-force grad_civs_main_enabled = false;
-force grad_civs_mimikry_enabled = true;
-force grad_civs_patrol_initialGroupSize = 3;
-force grad_civs_patrol_maxCivsOnFoot = 30;
-grad_civs_patrol_spawnDistancesOnFoot = "[1000, 4500]";
-grad_civs_residents_chatTime = 20;
-force grad_civs_residents_maxCivsResidents = 20;
-grad_civs_residents_meetNeighborCooldown = 150;
-grad_civs_residents_spawnDistancesResidents = "[500,  1000]";
-force grad_civs_transit_maxVehiclesInTransit = 5;
-force grad_civs_transit_vehicles = "[]";
-force grad_civs_voyage_maxCivsInVehicles = 10;
-grad_civs_voyage_maxTravelRadius = 0;
-grad_civs_voyage_spawnDistancesInVehicles = "[1500, 6000]";
-
 // GRAD Trenches
 force grad_trenches_functions_allowBigEnvelope = true;
 force grad_trenches_functions_allowCamouflage = true;
@@ -1565,6 +1650,18 @@ force GX_DRONES_TIME_TO_DEPLOY = 3;
 force GX_DRONES_TIME_TO_PICKUP = 3;
 force GX_DRONES_TIME_TO_REARM = 2;
 force GX_DRONES_TIME_TO_RECHARGE = 2;
+
+// Hatchet Vehicle Framework
+hct_interaction_autoclose_actionmenu = false;
+hct_interaction_cursorColor = [0.95,0.95,0.95,1];
+hct_interaction_cursorText = "×";
+hct_interaction_pointing = true;
+hct_interaction_showDebugMessages = false;
+hct_interaction_showLabels = 2;
+hct_interaction_trackIR_interaction_cursor = false;
+hct_interaction_trackIR_interaction_cursor_invert = false;
+hct_interaction_trackIR_interaction_cursorSensitivity = 2.5;
+hct_interaction_updateEvery = 5;
 
 // KAT - ADV Medical: Airway
 force force kat_airway_Accuvac_time = 5.04625;
@@ -1954,56 +2051,17 @@ force force kat_watch_pressureUnit = 1;
 force force kat_watch_temperatureUnit = 0;
 force force kat_watch_watchInaccuracy = true;
 
-// LAMBS Danger
-force lambs_danger_cqbRange = 60;
-lambs_danger_disableAIAutonomousManoeuvres = false;
-lambs_danger_disableAIDeployStaticWeapons = false;
-lambs_danger_disableAIFindStaticWeapons = false;
-lambs_danger_disableAIHideFromTanksAndAircraft = false;
-lambs_danger_disableAIPlayerGroup = false;
-lambs_danger_disableAIPlayerGroupReaction = false;
-lambs_danger_disableAutonomousFlares = false;
-lambs_danger_disableAutonomousSmokeGrenades = false;
-force lambs_danger_panicChance = 0;
-
-// LAMBS Danger Eventhandlers
-force lambs_eventhandlers_ExplosionEventHandlerEnabled = true;
-force lambs_eventhandlers_ExplosionReactionTime = 9;
-
-// LAMBS Danger WP
-force lambs_wp_autoAddArtillery = false;
-
-// LAMBS Main
-force lambs_main_combatShareRange = 200;
-force lambs_main_debug_drawAllUnitsInVehicles = false;
-force lambs_main_debug_Drawing = false;
-force lambs_main_debug_FSM = false;
-force lambs_main_debug_FSM_civ = false;
-force lambs_main_debug_functions = false;
-force lambs_main_debug_RenderExpectedDestination = false;
-lambs_main_disableAICallouts = false;
-lambs_main_disableAIDodge = false;
-lambs_main_disableAIFleeing = false;
-lambs_main_disableAIGestures = false;
-lambs_main_disableAutonomousMunitionSwitching = false;
-lambs_main_disablePlayerGroupSuppression = false;
-force lambs_main_indoorMove = 0.1;
-force lambs_main_maxRevealValue = 1;
-force lambs_main_minFriendlySuppressionDistance = 3;
-force lambs_main_minObstacleProximity = 5;
-force lambs_main_minSuppressionRange = 50;
-force lambs_main_radioBackpack = 2000;
-lambs_main_radioDisabled = false;
-force lambs_main_radioEast = 500;
-force lambs_main_radioGuer = 500;
-force lambs_main_radioShout = 100;
-force lambs_main_radioWest = 500;
-
 // Laxemann Immerse
 force force L_Immerse_exShake = true;
 L_Immerse_force = true;
 force force L_Immerse_recoil = false;
 force force L_Immerse_twitch = true;
+
+// Modern Sniper Systems
+force MSSLRF_ballisticsEnabled = 0;
+MSSLRF_phoneInteraction = true;
+MSSLRF_rangeMetric = true;
+MSSLRF_windMetric = true;
 
 // Tactical Position Ready Options
 Animation for automatic wall avoidance = 0;
@@ -2013,6 +2071,28 @@ In Ready state, place your hand on an ally's shoulder. = true;
 Lookahead for corner detection (in m) = "0.2";
 Shoulder Ready Angle = "65";
 Shoulder Ready Distance (in m) = "1.6";
+
+// UH-60M
+force vtx_ace_viv_loadDistance = 15;
+force vtx_ace_viv_timeFactor = 1;
+vtx_uh60_anvishud_defaultMode = -1;
+vtx_uh60_anvishud_settingBrightness = 0.6;
+vtx_uh60_anvishud_settingColor = [0.082,0.608,0.039];
+vtx_uh60_flir_setting_AimSlewBlockMouse = true;
+vtx_uh60_flir_setting_AimSlewSpeed = 1;
+vtx_uh60_flir_setting_AimXFactor = 1;
+force vtx_uh60_flir_setting_animateTurret = true;
+vtx_uh60_flir_setting_KeySlewSpeed = 1;
+vtx_uh60_flir_setting_KeyXFactor = 1;
+vtx_uh60_flir_setting_SlewDeadzone = 5;
+force vtx_uh60_flir_setting_syncDelay = 0.015;
+vtx_uh60_hoist_setting_useAttachScript = false;
+vtx_uh60_jvmf_defaults = true;
+vtx_uh60_sfmPlus_showDamageHints = true;
+vtx_uh60_sfmPlusStabilatorEnabled = 1;
+vtx_uh60_ui_showDebugMessages = false;
+vtx_uh60m_simpleCollective = false;
+vtx_uh60m_simpleStartup = false;
 
 // Zeus Additions
 zeus_additions_main_AABLU_mags = "[""rhs_fim92_mag"",""Titan_AA""]";
@@ -2124,7 +2204,6 @@ force force zen_attributes_enableWaypointType = true;
 
 // Zeus Enhanced - Faction Filter
 zen_faction_filter_0_EMP_Greystone_PMC_OPFOR = true;
-zen_faction_filter_0_FIR_AWS_ENEMY_F = true;
 zen_faction_filter_0_ibr_LartaFac = true;
 zen_faction_filter_0_LOP_AFR_OPF = true;
 zen_faction_filter_0_LOP_AM_OPF = true;
@@ -2137,6 +2216,9 @@ zen_faction_filter_0_LOP_SLA = true;
 zen_faction_filter_0_LOP_SYR = true;
 zen_faction_filter_0_LOP_TKA = true;
 zen_faction_filter_0_LOP_US = true;
+zen_faction_filter_0_min_rf = true;
+zen_faction_filter_0_min_rf_desert = true;
+zen_faction_filter_0_min_rf_winter = true;
 force force zen_faction_filter_0_OPF_F = true;
 force force zen_faction_filter_0_OPF_G_F = true;
 force force zen_faction_filter_0_OPF_GEN_F = true;
@@ -2213,6 +2295,7 @@ zen_faction_filter_2_rhsgref_faction_un = true;
 zen_faction_filter_3_CBRN_Civ = true;
 force force zen_faction_filter_3_CIV_F = true;
 force force zen_faction_filter_3_CIV_IDAP_F = true;
+zen_faction_filter_3_EdCat_Things = true;
 force force zen_faction_filter_3_IND_L_F = true;
 zen_faction_filter_3_LOP_AFR_Civ = true;
 zen_faction_filter_3_LOP_CHR_Civ = true;
